@@ -30,6 +30,7 @@ const {width, height} = Dimensions.get('window');
 const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
   const [data, setData] = useState([]);
   const [loader, setLoader] = useState(true);
+  const [loader2, setLoader2] = useState(true);
 
   const [accountType, setAccountType] = useState(null);
 
@@ -46,6 +47,7 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
   };
 
   const fetchData = async () => {
+    // setLoader2(true);
     if (accountType) {
       const fetchCollectionOf =
         accountType == 'student'
@@ -61,13 +63,16 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
           .then((dataArr) => {
             // console.log(dataArr.docs)
             setData(dataArr.docs);
+            setLoader2(false);
+          })
+          .catch(() => {
+            // setLoader2(false);
           });
       }
     }
   };
 
   useEffect(() => {
-    // AsyncStorage.removeItem('@show_form');
     formShowSet();
   }, []);
 
@@ -89,7 +94,7 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
       <View style={styles.container}>
         <View style={{flex: 1, alignItems: 'center', paddingTop: 20}}>
           {/* <Text style={styles.heading}>Recruitment App</Text> */}
-          {loader ? (
+          {loader || loader2 ? (
             <ActivityIndicator
               style={{height: '100%'}}
               color={'#a171ef'}
@@ -98,7 +103,7 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
           ) : formShow ? (
             <FormFields />
           ) : (
-            <List data={data} />
+            <List data={data} loader={loader2} />
           )}
         </View>
       </View>

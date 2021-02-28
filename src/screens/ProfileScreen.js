@@ -80,9 +80,17 @@ const ProfileScreen = ({navigation, userAuth}) => {
           <View style={styles.userDetailWrapper}>
             {userDetail ? (
               <View style={styles.userDetailContainer}>
-                <View>
-                  <Text style={styles.headingText}>Personal Detail</Text>
-                </View>
+                {userDetail.accountType == 'student' && (
+                  <View>
+                    <Text style={styles.headingText}>Personal Detail</Text>
+                  </View>
+                )}
+                
+                {/* {userDetail.accountType == 'student' && (
+                  <View>
+                    <Text style={styles.headingText}>Personal Detail</Text>
+                  </View>
+                )} */}
 
                 <View style={styles.userDetail}>
                   <Text style={styles.userDetailLabel}>Name :</Text>
@@ -113,15 +121,11 @@ const ProfileScreen = ({navigation, userAuth}) => {
                 </View>
                 <View style={styles.userDetail}>
                   <Text style={styles.userDetailLabel}>Grade :</Text>
-                  <Text style={styles.userDetailValue}>
-                    {userDetail.grade}
-                  </Text>
+                  <Text style={styles.userDetailValue}>{userDetail.grade}</Text>
                 </View>
                 <View style={styles.userDetail}>
                   <Text style={styles.userDetailLabel}>Score :</Text>
-                  <Text style={styles.userDetailValue}>
-                    {userDetail.score}
-                  </Text>
+                  <Text style={styles.userDetailValue}>{userDetail.score}</Text>
                 </View>
                 <View style={styles.userDetail}>
                   <Text style={styles.userDetailLabel}>Courses :</Text>
