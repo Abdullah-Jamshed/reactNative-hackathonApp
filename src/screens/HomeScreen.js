@@ -25,7 +25,7 @@ import List from '../components/List';
 
 const {width, height} = Dimensions.get('window');
 
-const HomeScreen = ({navigation, formShow, setFormShow, setKeyboard}) => {
+const HomeScreen = ({navigation, userAuth,formShow, setFormShow, setKeyboard}) => {
   const [data, setData] = useState([]);
   const [loader, setLoader] = useState(true);
   const [loader2, setLoader2] = useState(true);
@@ -35,7 +35,7 @@ const HomeScreen = ({navigation, formShow, setFormShow, setKeyboard}) => {
   const [accountType, setAccountType] = useState(null);
 
   const formShowSet = async () => {
-    const value = await AsyncStorage.getItem('@show_form');
+    const value = await AsyncStorage.getItem(`@show_form_${userAuth.userUID}`);
     if (value !== 'false') {
       setFormShow(!(value == 'false'));
       setLoader(false);

@@ -136,7 +136,10 @@ const SignUpScreen = ({
             <Text style={styles.headingText}>Sign Up</Text>
           </View>
         </View>
-        <ScrollView contentContainerStyle={{}}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+          }}>
           <View style={{width, alignItems: 'center'}}>
             <DropDown />
             {accountType == 'student' && (

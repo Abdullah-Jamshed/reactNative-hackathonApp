@@ -53,7 +53,7 @@ const FormFields = ({userAuth, formShow, setFormShow}) => {
         .doc(userAuth.uid)
         .update(updateObject)
         .then(() => {
-          AsyncStorage.setItem('@show_form', 'false');
+          AsyncStorage.setItem(`@show_form_${userAuth.userUID}`, 'false');
           setFormShow(false);
           // console.log('Form Update Successfully');
         })
