@@ -7,47 +7,105 @@ import {
   StyleSheet,
   ScrollView,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 
 //redux
 import {connect} from 'react-redux';
 
+// firebase
+import firestore from '@react-native-firebase/firestore';
+
 // icons
-import AntDesign from 'react-native-vector-icons/AntDesign';
+// import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const {width, height} = Dimensions.get('window');
 
-const UpdateUserScreen = ({detail}) => {
-  //   console.log(detail.accountType);
-  //   const [accountType, setAccountType] = useState(null);
-  //   useEffect(() => {
-  //     const getType = async () => {
-  //       const value = await AsyncStorage.getItem('@account_type');
-  //       console.log(value);
-  //       setAccountType(value);
-  //     };
-  //     getType();
-  //   }, []);
-
-  const [accountType, setAccountType] = useState(null);
+const UpdateUserScreen = ({navigation, detail}) => {
   const [loader, setLoader] = useState(false);
 
-  const [grade, setGrade] = useState('');
-  const [numbers, setNumbers] = useState('');
-  const [courses, setCourses] = useState('');
-
-  const [experence, setExperence] = useState('');
-  const [noOfOpening, setNoOfOpening] = useState('');
-  const [reqMarks, setReqMarks] = useState('');
-
+  // use by Both
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [numbers, setNumbers] = useState('');
+  const [grade, setGrade] = useState('');
+
+  // use by student
+  const [courses, setCourses] = useState('');
   const [gender, setGender] = useState('');
+
+  // use by company
+  const [experence, setExperence] = useState('');
+  const [noOfOpening, setNoOfOpening] = useState('');
+  const [reqMarks, setReqMarks] = useState('');
   const [city, setCity] = useState('');
 
-  const submit = () => {};
+  const submit = () => {
+    setLoader(true);
+    if (detail.accountType == 'student') {
+      firestore()
+        .collection(`${detail.accountType}`)
+        .doc(`${detail.userUID}`)
+        .update({
+          courses: courses,
+          gender: gender,
+          grade: grade,
+          numbers: numbers,
+          phoneNumber: phoneNumber,
+          userName: name,
+        })
+        .then(() => {
+          setLoader(false);
+          navigation.goBack();
+        })
+        .catch(() => {
+          setLoader(false);
+        });
+    } else if (detail.accountType == 'company') {
+      firestore()
+        .collection(`${detail.accountType}`)
+        .doc(`${detail.userUID}`)
+        .update({
+          city: city,
+          experence: experence,
+          grade: grade,
+          noOfOpening: noOfOpening,
+          phoneNumber: phoneNumber,
+          reqMarks: reqMarks,
+          userName: name,
+        })
+        .then(() => {
+          setLoader(false);
+          navigation.goBack();
+        })
+        .catch(() => {
+          setLoader(false);
+        });
+    }
+  };
+
+  useEffect(() => {
+    if (detail.accountType == 'student') {
+      setName(detail.userName);
+      setEmail(detail.email);
+      setPhoneNumber(detail.phoneNumber);
+      setGender(detail.gender);
+      setGrade(detail.grade);
+      setNumbers(detail.numbers);
+      setCourses(detail.courses);
+    } else if (detail.accountType == 'company') {
+      setName(detail.userName);
+      setEmail(detail.email);
+      setPhoneNumber(detail.phoneNumber);
+      setCity(detail.city);
+      setNoOfOpening(detail.noOfOpening);
+      setExperence(detail.experence);
+      setGrade(detail.grade);
+      setReqMarks(detail.reqMarks);
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -58,7 +116,6 @@ const UpdateUserScreen = ({detail}) => {
               activeOpacity={0.8}
               style={styles.backButton}
               onPress={() => {
-                setAccountType(null);
                 navigation.goBack();
               }}>
               <Ionicons
@@ -77,10 +134,65 @@ const UpdateUserScreen = ({detail}) => {
               contentContainerStyle={{
                 flexGrow: 1,
                 width,
-                alignItems:"center"
+                alignItems: 'center',
               }}>
               {detail.accountType == 'student' && (
                 <>
+                  <TextInput
+                    value={name}
+                    onChangeText={(text) => setName(text)}
+                    style={styles.textInput}
+                    placeholder="Full Name"
+                    textContentType="name"
+                  />
+                  <TextInput
+                    value={email}
+                    onChangeText={(text) => setEmail(text.trim())}
+                    style={styles.textInput}
+                    placeholder="Email"
+                    textContentType="emailAddress"
+                    editable={false}
+                  />
+
+                  <TextInput
+                    value={phoneNumber}
+                    onChangeText={(text) => setPhoneNumber(text.trim())}
+                    style={styles.textInput}
+                    placeholder="Phone Number"
+                    keyboardType="number-pad"
+                  />
+                  <View style={styles.genderButtonCont}>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      style={styles.genderButton}
+                      onPress={() => {
+                        setGender('male');
+                      }}>
+                      <View
+                        style={
+                          gender == 'male'
+                            ? styles.fillCircle
+                            : styles.emptyCircle
+                        }
+                      />
+                      <Text style={styles.genderButtonText}>Male</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      style={styles.genderButton}
+                      onPress={() => {
+                        setGender('female');
+                      }}>
+                      <View
+                        style={
+                          gender == 'female'
+                            ? styles.fillCircle
+                            : styles.emptyCircle
+                        }
+                      />
+                      <Text style={styles.genderButtonText}>Female</Text>
+                    </TouchableOpacity>
+                  </View>
                   <TextInput
                     value={grade}
                     style={styles.textInput}
@@ -103,14 +215,36 @@ const UpdateUserScreen = ({detail}) => {
                     onPress={submit}
                     activeOpacity={0.8}
                     style={
-                      grade && courses && numbers
+                      name &&
+                      email &&
+                      phoneNumber &&
+                      gender &&
+                      grade &&
+                      courses &&
+                      numbers
                         ? styles.button
                         : styles.disabledButton
                     }
-                    disabled={!(grade && courses && numbers)}>
+                    disabled={
+                      !(
+                        name &&
+                        email &&
+                        phoneNumber &&
+                        gender &&
+                        grade &&
+                        courses &&
+                        numbers
+                      )
+                    }>
                     <Text
                       style={
-                        grade && courses && numbers
+                        name &&
+                        email &&
+                        phoneNumber &&
+                        gender &&
+                        grade &&
+                        courses &&
+                        numbers
                           ? styles.buttonText
                           : styles.disabledButtonText
                       }>
@@ -129,6 +263,54 @@ const UpdateUserScreen = ({detail}) => {
 
               {detail.accountType == 'company' && (
                 <>
+                  <TextInput
+                    value={name}
+                    onChangeText={(text) => setName(text)}
+                    style={styles.textInput}
+                    placeholder="Company Name"
+                    textContentType="name"
+                  />
+                  <TextInput
+                    value={email}
+                    onChangeText={(text) => setEmail(text.trim())}
+                    style={styles.textInput}
+                    placeholder="Email"
+                    textContentType="emailAddress"
+                    editable={false}
+                  />
+                  {/* <View style={styles.helperTextContainer}>
+                    {helperTextEmail !== '' && (
+                      <Text style={styles.helperText}>{helperTextEmail}</Text>
+                    )}
+                  </View> */}
+                  {/* <TextInput
+                    value={password}
+                    onChangeText={(text) => setPassword(text.trim())}
+                    style={styles.textInput}
+                    placeholder="Password"
+                    textContentType="password"
+                    secureTextEntry={true}
+                  /> */}
+                  {/* <View style={styles.helperTextContainer}>
+                    {helperTextPassword !== '' && (
+                      <Text style={styles.helperText}>
+                        {helperTextPassword}
+                      </Text>
+                    )} 
+                  </View>*/}
+                  <TextInput
+                    value={phoneNumber}
+                    onChangeText={(text) => setPhoneNumber(text.trim())}
+                    style={styles.textInput}
+                    placeholder="Phone Number"
+                    keyboardType="number-pad"
+                  />
+                  <TextInput
+                    value={city}
+                    onChangeText={(text) => setCity(text.trim())}
+                    style={styles.textInput}
+                    placeholder="City"
+                  />
                   <TextInput
                     value={noOfOpening}
                     style={styles.textInput}
@@ -157,14 +339,39 @@ const UpdateUserScreen = ({detail}) => {
                     onPress={submit}
                     activeOpacity={0.8}
                     style={
-                      grade && noOfOpening && experence && reqMarks
+                      name &&
+                      email &&
+                      phoneNumber &&
+                      city &&
+                      noOfOpening &&
+                      experence &&
+                      grade &&
+                      reqMarks
                         ? styles.button
                         : styles.disabledButton
                     }
-                    disabled={!(grade && noOfOpening && experence && reqMarks)}>
+                    disabled={
+                      !(
+                        name &&
+                        email &&
+                        phoneNumber &&
+                        city &&
+                        noOfOpening &&
+                        experence &&
+                        grade &&
+                        reqMarks
+                      )
+                    }>
                     <Text
                       style={
-                        grade && noOfOpening && experence && reqMarks
+                        name &&
+                        email &&
+                        phoneNumber &&
+                        city &&
+                        noOfOpening &&
+                        experence &&
+                        grade &&
+                        reqMarks
                           ? styles.buttonText
                           : styles.disabledButtonText
                       }>
@@ -258,6 +465,34 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#586069',
     fontSize: 15,
+  },
+  fillCircle: {
+    width: 10,
+    height: 10,
+    backgroundColor: '#a171ef',
+    borderRadius: 10,
+  },
+  emptyCircle: {
+    width: 10,
+    height: 10,
+    backgroundColor: '#fff',
+    borderWidth: 0.5,
+    borderColor: '#a171ef',
+    borderRadius: 10,
+  },
+  genderButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  genderButtonText: {
+    marginLeft: 5,
+    marginRight: 15,
+    fontSize: 15,
+  },
+  genderButtonCont: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
   },
 });
 
