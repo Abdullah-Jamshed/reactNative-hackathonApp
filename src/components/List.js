@@ -43,11 +43,6 @@ const List = ({navigation, data, loader, setDetail, active}) => {
               <Text style={styles.headingText}>Students List</Text>
             </View>
           )}
-          {/* {accountType == 'admin' && (
-        <View style={styles.heading}>
-          <Text style={styles.headingText}>Students List</Text>
-        </View>
-      )} */}
 
           {accountType === 'admin' && (
             <>
