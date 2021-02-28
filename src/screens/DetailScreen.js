@@ -71,7 +71,7 @@ const DetailScreen = ({navigation, detail, setDetail}) => {
                     navigation.navigate('UpdateUser');
                   }}
                   style={styles.editButton}>
-                  <AntDesign name="edit" size={22} color={'#fff'} />
+                  <AntDesign name="edit" size={25} color={'#fff'} />
                 </TouchableOpacity>
               )}
             </View>
@@ -274,8 +274,8 @@ const styles = StyleSheet.create({
   editButtonContainer: {
     zIndex: 10,
     position: 'absolute',
-    right: 10,
-    top: 10,
+    right: 15,
+    top: 15,
   },
   editButton: {
     padding: 5,
