@@ -57,7 +57,7 @@ const FormFields = ({userAuth, formShow, setFormShow}) => {
         .doc(userAuth.uid)
         .update(updateObject)
         .then(() => {
-          AsyncStorage.setItem('@show_form', 'true');
+          AsyncStorage.setItem('@show_form', 'false');
           setFormShow(false);
           console.log('Form Update Successfully');
         })
@@ -142,8 +142,7 @@ const FormFields = ({userAuth, formShow, setFormShow}) => {
           <TextInput
             value={experence}
             style={styles.textInput}
-            placeholder="Experence"
-            textContentType="Experence Level"
+            placeholder="Experence Level"
             onChangeText={(text) => setExperence(text.trim())}
           />
           <TextInput

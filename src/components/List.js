@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const {width, height} = Dimensions.get('window');
 
 const List = ({data}) => {
+//   console.log(data);
   const [accountType, setAccountType] = useState(null);
   useEffect(() => {
     const getType = async () => {
@@ -20,7 +21,7 @@ const List = ({data}) => {
           <Text style={styles.headingText}>Companies List</Text>
         </View>
       )}
-      {accountType == 'componay' && (
+      {accountType == 'company' && (
         <View style={styles.heading}>
           <Text style={styles.headingText}>Students List</Text>
         </View>

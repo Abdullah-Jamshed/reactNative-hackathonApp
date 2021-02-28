@@ -35,8 +35,14 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
 
   const formShowSet = async () => {
     const value = await AsyncStorage.getItem('@show_form');
-    setFormShow(!value);
-    setLoader(false);
+    if (value !== 'false') {
+      console.log('account type ==>> 1 ', !value);
+      // console.log('account type ==>> 1 ', value == 'false');
+      setFormShow(!(value == 'false'));
+      setLoader(false);
+    } else if (value == 'false') {
+      setLoader(false);
+    }
   };
 
   const fetchData = async () => {
@@ -68,6 +74,7 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
   useEffect(() => {
     const getType = async () => {
       const value = await AsyncStorage.getItem('@account_type');
+      console.log('account type ==>> 2', value);
       setAccountType(value);
     };
     getType();
@@ -94,11 +101,6 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
           ) : (
             <List data={data} />
           )}
-          {/* <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={submit} style={styles.button}>
-              <Text style={styles.buttonText}>Submit</Text>
-            </TouchableOpacity>
-          </View> */}
         </View>
       </View>
     </SafeAreaView>
