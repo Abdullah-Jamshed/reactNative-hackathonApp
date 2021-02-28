@@ -16,7 +16,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const {width, height} = Dimensions.get('window');
 
-const DropDown = ({groups, accountType, setAccountType}) => {
+const DropDown = ({screen, accountType, setAccountType}) => {
   const [dropDownShow, setDropDownShow] = useState(false);
 
   return (
@@ -47,14 +47,19 @@ const DropDown = ({groups, accountType, setAccountType}) => {
         </TouchableOpacity>
 
         {dropDownShow && (
-          <View
-            style={
-              {
-                // minHeight: height / 3,
-                // maxHeight: height / 2,
-              }
-            }>
+          <View>
             <View style={styles.dropDownCont}>
+              {screen == 'login' && (
+                <TouchableOpacity
+                  activeOpacity={0.9}
+                  style={styles.dropDownTextCont}
+                  onPress={() => {
+                    setAccountType('admin');
+                    setDropDownShow(false);
+                  }}>
+                  <Text style={styles.dropDownText}>Admin</Text>
+                </TouchableOpacity>
+              )}
               <TouchableOpacity
                 activeOpacity={0.9}
                 style={styles.dropDownTextCont}

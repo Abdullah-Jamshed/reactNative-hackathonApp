@@ -18,7 +18,7 @@ import {setFormShow} from '../store/actions/homeActions';
 
 const {width, height} = Dimensions.get('window');
 
-const FormFields = ({userAuth, setFormShow}) => {
+const FormFields = ({userAuth, formShow, setFormShow}) => {
   const [accountType, setAccountType] = useState(null);
   const [loader, setLoader] = useState(false);
 
@@ -75,6 +75,10 @@ const FormFields = ({userAuth, setFormShow}) => {
     };
     getType();
   }, []);
+
+  useEffect(() => {
+    console.log(formShow);
+  }, [formShow]);
 
   return (
     <View style={styles.container}>
@@ -249,11 +253,12 @@ const styles = StyleSheet.create({
 const mapStatetoProps = (state) => {
   return {
     userAuth: state.homeReducer.userAuth,
+    formShow: state.homeReducer.formShow,
   };
 };
 const mapDispatchtoProps = (dispatch) => {
   return {
-    setFormShow: (show) => dispatch(setFormShow(sow)),
+    setFormShow: (show) => dispatch(setFormShow(show)),
   };
 };
 

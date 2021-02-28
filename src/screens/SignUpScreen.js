@@ -25,6 +25,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 // Screen
 // Component
 import DropDown from '../components/DropDown';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width, height} = Dimensions.get('window');
 
@@ -52,6 +53,7 @@ const SignUpScreen = ({
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
+        AsyncStorage.setItem('@account_type', accountType);
         var userUpdate = auth().currentUser;
         userUpdate
           .updateProfile({
@@ -120,76 +122,79 @@ const SignUpScreen = ({
           </View>
         </View>
         <DropDown />
-        <View style={styles.fields}>
-          <TextInput
-            value={name}
-            onChangeText={(text) => setName(text)}
-            style={styles.textInput}
-            placeholder="Full Name"
-            textContentType="name"
-          />
-          <TextInput
-            value={email}
-            onChangeText={(text) => setEmail(text.trim())}
-            style={styles.textInput}
-            placeholder="Email"
-            textContentType="emailAddress"
-          />
-          <View style={styles.helperTextContainer}>
-            {helperTextEmail !== '' && (
-              <Text style={styles.helperText}>{helperTextEmail}</Text>
-            )}
+        {
+          <View style={styles.fields}>
+            <TextInput
+              value={name}
+              onChangeText={(text) => setName(text)}
+              style={styles.textInput}
+              placeholder="Full Name"
+              textContentType="name"
+            />
+            <TextInput
+              value={email}
+              onChangeText={(text) => setEmail(text.trim())}
+              style={styles.textInput}
+              placeholder="Email"
+              textContentType="emailAddress"
+            />
+            <View style={styles.helperTextContainer}>
+              {helperTextEmail !== '' && (
+                <Text style={styles.helperText}>{helperTextEmail}</Text>
+              )}
+            </View>
+            <TextInput
+              value={password}
+              onChangeText={(text) => setPassword(text.trim())}
+              style={styles.textInput}
+              placeholder="Password"
+              textContentType="password"
+              secureTextEntry={true}
+            />
+            <View style={styles.helperTextContainer}>
+              {helperTextPassword !== '' && (
+                <Text style={styles.helperText}>{helperTextPassword}</Text>
+              )}
+            </View>
+            <TextInput
+              value={phoneNumber}
+              onChangeText={(text) => setPhoneNumber(text.trim())}
+              style={styles.textInput}
+              placeholder="Phone Number"
+              keyboardType="number-pad"
+              secureTextEntry={true}
+            />
+            <View style={styles.genderButtonCont}>
+              <TouchableOpacity
+                activeOpacity={1}
+                style={styles.genderButton}
+                onPress={() => {
+                  setGender('male');
+                }}>
+                <View
+                  style={
+                    gender == 'male' ? styles.fillCircle : styles.emptyCircle
+                  }
+                />
+                <Text style={styles.genderButtonText}>Male</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={1}
+                style={styles.genderButton}
+                onPress={() => {
+                  setGender('female');
+                }}>
+                <View
+                  style={
+                    gender == 'female' ? styles.fillCircle : styles.emptyCircle
+                  }
+                />
+                <Text style={styles.genderButtonText}>Female</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <TextInput
-            value={password}
-            onChangeText={(text) => setPassword(text.trim())}
-            style={styles.textInput}
-            placeholder="Password"
-            textContentType="password"
-            secureTextEntry={true}
-          />
-          <View style={styles.helperTextContainer}>
-            {helperTextPassword !== '' && (
-              <Text style={styles.helperText}>{helperTextPassword}</Text>
-            )}
-          </View>
-          <TextInput
-            value={phoneNumber}
-            onChangeText={(text) => setPhoneNumber(text.trim())}
-            style={styles.textInput}
-            placeholder="Phone Number"
-            keyboardType="number-pad"
-            secureTextEntry={true}
-          />
-          <View style={styles.genderButtonCont}>
-            <TouchableOpacity
-              activeOpacity={1}
-              style={styles.genderButton}
-              onPress={() => {
-                setGender('male');
-              }}>
-              <View
-                style={
-                  gender == 'male' ? styles.fillCircle : styles.emptyCircle
-                }
-              />
-              <Text style={styles.genderButtonText}>Male</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={1}
-              style={styles.genderButton}
-              onPress={() => {
-                setGender('female');
-              }}>
-              <View
-                style={
-                  gender == 'female' ? styles.fillCircle : styles.emptyCircle
-                }
-              />
-              <Text style={styles.genderButtonText}>Female</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        }
+
         <TouchableOpacity
           onPress={SignUp}
           activeOpacity={0.8}

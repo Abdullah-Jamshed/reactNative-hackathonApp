@@ -8,11 +8,11 @@ import {
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Redux
 import {connect} from 'react-redux';
 import {setFormShow} from '../store/actions/homeActions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // firebase
 import auth from '@react-native-firebase/auth';
@@ -23,17 +23,15 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 // components
 import FormFields from '../components/FormFields';
+import List from '../components/List';
 
 const {width, height} = Dimensions.get('window');
 
 const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
-  // const [formShow, setFormShow] = useState(null);
+  const [data, setData] = useState([]);
   const [loader, setLoader] = useState(true);
 
-  // const submit = async () => {
-  //   // AsyncStorage.setItem('@show_form', 'true');
-  //   // setFormShow(false);
-  // };
+  const [accountType, setAccountType] = useState(null);
 
   const formShowSet = async () => {
     const value = await AsyncStorage.getItem('@show_form');
@@ -41,10 +39,44 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
     setLoader(false);
   };
 
+  const fetchData = async () => {
+    if (accountType) {
+      const fetchCollectionOf =
+        accountType == 'student'
+          ? 'company'
+          : accountType == 'company'
+          ? 'student'
+          : 'both';
+      // console.log('<==>', fetchCollectionOf);
+      if (fetchCollectionOf !== 'both') {
+        firestore()
+          .collection(`${fetchCollectionOf}`)
+          .get()
+          .then((dataArr) => {
+            // console.log(dataArr.docs)
+            setData(dataArr.docs);
+          });
+      }
+    }
+  };
+
   useEffect(() => {
-    AsyncStorage.removeItem('@show_form');
+    // AsyncStorage.removeItem('@show_form');
     formShowSet();
   }, []);
+
+  useEffect(() => {
+    const getType = async () => {
+      const value = await AsyncStorage.getItem('@account_type');
+      setAccountType(value);
+    };
+    getType();
+  }, []);
+
+  useEffect(() => {
+    // AsyncStorage.removeItem('@show_form');
+    fetchData();
+  }, [accountType]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -52,9 +84,15 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
         <View style={{flex: 1, alignItems: 'center', paddingTop: 20}}>
           {/* <Text style={styles.heading}>Recruitment App</Text> */}
           {loader ? (
-            <ActivityIndicator color={'#a171ef'} size={'small'} />
+            <ActivityIndicator
+              style={{height: '100%'}}
+              color={'#a171ef'}
+              size={'large'}
+            />
+          ) : formShow ? (
+            <FormFields />
           ) : (
-            formShow && <FormFields />
+            <List data={data} />
           )}
           {/* <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={submit} style={styles.button}>

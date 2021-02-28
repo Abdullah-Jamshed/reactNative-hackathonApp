@@ -62,7 +62,7 @@ const LoginScreen = ({navigation, accountType}) => {
           <Text style={styles.headingText}>Recruitment App</Text>
         </View>
         <View style={{marginTop: 30}}>
-          <DropDown />
+          <DropDown screen="login" />
           <View style={{alignItems: 'center', marginTop: 30}}>
             <TextInput
               value={email}
