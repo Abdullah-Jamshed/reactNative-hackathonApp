@@ -40,6 +40,8 @@ const HomeScreen = ({
   const [loader, setLoader] = useState(true);
   const [loader2, setLoader2] = useState(true);
 
+  const [active, setActive] = useState('student');
+
   const [accountType, setAccountType] = useState(null);
 
   const formShowSet = async () => {
@@ -54,15 +56,18 @@ const HomeScreen = ({
 
   const fetchData = async () => {
     // setLoader2(true);
+    console.log(accountType);
     if (accountType) {
       const fetchCollectionOf =
         accountType == 'student'
           ? 'company'
           : accountType == 'company'
           ? 'student'
-          : 'both';
-      // console.log('<==>', fetchCollectionOf);
-      if (fetchCollectionOf !== 'both') {
+          : accountType == 'admin'
+          ? 'both'
+          : null;
+      console.log('<==>', fetchCollectionOf);
+      if (fetchCollectionOf !== 'both' && fetchCollectionOf) {
         firestore()
           .collection(`${fetchCollectionOf}`)
           .get()
@@ -73,6 +78,18 @@ const HomeScreen = ({
           })
           .catch(() => {
             // setLoader2(false);
+          });
+      } else if (fetchCollectionOf == 'both') {
+        firestore()
+          .collection(`${active}`)
+          .get()
+          .then((dataArr) => {
+            console.log(dataArr.docs);
+            setData(dataArr.docs);
+            setLoader2(false);
+          })
+          .catch(() => {
+            setLoader2(false);
           });
       }
     }
@@ -130,6 +147,13 @@ const HomeScreen = ({
     }
   }, [accountType]);
 
+  useEffect(() => {
+    // console.log('before fetch =>> ', accountType);
+    if (accountType == 'admin') {
+      fetchData();
+    }
+  }, [active, accountType]);
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
@@ -142,7 +166,60 @@ const HomeScreen = ({
             <Text style={styles.heading}>Recruitment App</Text>
             {accountType == 'admin' ? (
               <>
-                <Text>Admin</Text>
+                <View>
+                  {/* <View>
+                    <Text>Admin</Text>
+                  </View> */}
+                  <View style={styles.buttonContainer2}>
+                    <TouchableOpacity
+                      activeOpacity={0.9}
+                      onPress={() => {
+                        setActive('student');
+                      }}
+                      style={
+                        active == 'student'
+                          ? styles.button
+                          : styles.disableButton
+                      }>
+                      <Text
+                        style={
+                          active == 'student'
+                            ? styles.buttonText
+                            : styles.disableButtonText
+                        }>
+                        Student
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={0.9}
+                      onPress={() => {
+                        setActive('company');
+                      }}
+                      style={
+                        active == 'company'
+                          ? styles.button
+                          : styles.disableButton
+                      }>
+                      <Text
+                        style={
+                          active == 'company'
+                            ? styles.buttonText
+                            : styles.disableButtonText
+                        }>
+                        Company
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+
+                  <View>
+                    <List
+                      data={data}
+                      loader={loader2}
+                      navigation={navigation}
+                      active={active}
+                    />
+                  </View>
+                </View>
               </>
             ) : (
               <>
@@ -181,16 +258,36 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 10,
+    marginHorizontal: 5,
   },
   buttonText: {
     fontSize: 15,
     color: '#ffffff',
     fontWeight: 'bold',
   },
+  disableButton: {
+    backgroundColor: '#fff',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: '#a171ef',
+    marginHorizontal: 5,
+  },
+  disableButtonText: {
+    fontSize: 15,
+    color: '#a171ef',
+    fontWeight: 'bold',
+  },
   heading: {
     fontSize: 20,
     color: '#a171ef',
     fontWeight: 'bold',
+  },
+  buttonContainer2: {
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 });
 
