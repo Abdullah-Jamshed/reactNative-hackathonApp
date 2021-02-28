@@ -110,7 +110,7 @@ const UpdateScreen = ({navigation, userAuth, userAuthAction}) => {
           <AntDesign
             name="left"
             size={25}
-            color={'#fe6666'}
+            color={'#a171ef'}
             onPress={() => {
               setImage(null);
               navigation.goBack();
@@ -146,7 +146,7 @@ const UpdateScreen = ({navigation, userAuth, userAuthAction}) => {
 
           <View>
             <TouchableOpacity
-            disabled={!image}
+              disabled={!image}
               style={
                 image
                   ? [styles.button, {flexDirection: 'row'}]
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#fe6666',
+    color: '#a171ef',
   },
   headingContainer: {
     flexDirection: 'row',
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
   },
   button: {
-    backgroundColor: '#fe6666',
+    backgroundColor: '#a171ef',
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 10,
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   },
   photoContainer: {
     width,
-    // backgroundColor: '#fe6666',
+    // backgroundColor: '#a171ef',
     // height: 100,
     alignItems: 'center',
     paddingVertical: 20,

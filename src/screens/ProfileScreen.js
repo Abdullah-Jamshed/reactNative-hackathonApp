@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {
   SafeAreaView,
@@ -7,14 +7,18 @@ import {
   Text,
   Dimensions,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Redux
 import {connect} from 'react-redux';
 
 // firebasee
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 // icons
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -23,15 +27,31 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const {width, height} = Dimensions.get('window');
 
 const ProfileScreen = ({navigation, userAuth}) => {
+  const [userDetail, setUserDetail] = useState(null);
   const signOut = () => {
+    AsyncStorage.removeItem('@account_type');
     auth().signOut();
   };
+  const userDetailFetch = async () => {
+    const type = await AsyncStorage.getItem('@account_type');
+    const data = await firestore().collection(type).doc(userAuth.uid).get();
+    setUserDetail(data.data());
+  };
+
+  useEffect(() => {
+    userDetailFetch();
+  }, []);
 
   return (
     <SafeAreaView style={{flex: 1}}>
       {userAuth && (
         <View style={styles.container}>
           <View style={styles.photoContainer}>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={signOut} style={styles.button}>
+                <Text style={styles.buttonText}>Sign Out</Text>
+              </TouchableOpacity>
+            </View>
             <View style={styles.photoCircle}>
               {userAuth.photoURL ? (
                 <Image
@@ -45,7 +65,7 @@ const ProfileScreen = ({navigation, userAuth}) => {
               )}
               <View style={styles.editButtonContainer}>
                 <TouchableOpacity
-                  activeOpacity={0.7}
+                  activeOpacity={0.9}
                   onPress={() => navigation.navigate('Update')}
                   style={styles.editButton}>
                   <MaterialCommunityIcons
@@ -58,24 +78,69 @@ const ProfileScreen = ({navigation, userAuth}) => {
             </View>
           </View>
           <View style={styles.userDetailWrapper}>
-            <View style={styles.userDetailContainer}>
-              <View style={styles.userDetail}>
-                <Text style={styles.userDetailLabel}>Name :</Text>
-                <Text style={styles.userDetailValue}>
-                  {userAuth.displayName}
-                </Text>
-              </View>
-              <View style={styles.userDetail}>
-                <Text style={styles.userDetailLabel}>Email :</Text>
-                <Text style={styles.userDetailValue}>{userAuth.email}</Text>
-              </View>
-            </View>
+            {userDetail ? (
+              <View style={styles.userDetailContainer}>
+                <View>
+                  <Text style={styles.headingText}>Personal Detail</Text>
+                </View>
 
-            <View style={styles.buttonContainer}>
+                <View style={styles.userDetail}>
+                  <Text style={styles.userDetailLabel}>Name :</Text>
+                  <Text style={styles.userDetailValue}>
+                    {userDetail.userName}
+                  </Text>
+                </View>
+                <View style={styles.userDetail}>
+                  <Text style={styles.userDetailLabel}>Email :</Text>
+                  <Text style={styles.userDetailValue}>{userDetail.email}</Text>
+                </View>
+
+                <View style={styles.userDetail}>
+                  <Text style={styles.userDetailLabel}>Gender :</Text>
+                  <Text style={styles.userDetailValue}>
+                    {userDetail.gender}
+                  </Text>
+                </View>
+
+                <View style={styles.userDetail}>
+                  <Text style={styles.userDetailLabel}>Phone :</Text>
+                  <Text style={styles.userDetailValue}>
+                    {userDetail.phoneNumber}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.headingText}>Achievements</Text>
+                </View>
+                <View style={styles.userDetail}>
+                  <Text style={styles.userDetailLabel}>Grade :</Text>
+                  <Text style={styles.userDetailValue}>
+                    {/* {userDetail.phoneNumber} */}A
+                  </Text>
+                </View>
+                <View style={styles.userDetail}>
+                  <Text style={styles.userDetailLabel}>Score :</Text>
+                  <Text style={styles.userDetailValue}>
+                    {/* {userDetail.phoneNumber} */}846/875
+                  </Text>
+                </View>
+                <View style={styles.userDetail}>
+                  <Text style={styles.userDetailLabel}>Courses :</Text>
+                  <Text style={styles.userDetailValue}>
+                    {/* {userDetail.phoneNumber} */}10
+                  </Text>
+                </View>
+              </View>
+            ) : (
+              <View style={styles.loaderContainer}>
+                <ActivityIndicator color={'#a171ef'} size={'large'} />
+              </View>
+            )}
+
+            {/* <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={signOut} style={styles.button}>
                 <Text style={styles.buttonText}>Sign Out</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
         </View>
       )}
@@ -89,17 +154,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   buttonContainer: {
-    alignItems: 'center',
+    width: 100,
+    // alignItems: 'center',
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
   button: {
-    backgroundColor: '#a171ef',
+    backgroundColor: '#fff',
     paddingVertical: 10,
     paddingHorizontal: 15,
-    borderRadius: 10,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonText: {
     fontSize: 15,
-    color: '#ffffff',
+    color: '#a171ef',
     fontWeight: 'bold',
   },
   photoContainer: {
@@ -139,7 +210,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   userDetailLabel: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
     width: 70,
   },
@@ -158,11 +229,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#586069',
     borderRadius: 100,
   },
+  loaderContainer: {
+    // height: height / 2,
+    justifyContent: 'center',
+    padding: 20,
+  },
+  headingText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    paddingVertical: 10,
+  },
 });
 
 const mapStatetoProps = (state) => {
   return {
     userAuth: state.homeReducer.userAuth,
+    accountType: state.homeReducer.accountType,
   };
 };
 const mapDispatchtoProps = () => {

@@ -10,6 +10,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 //redux
 import {connect} from 'react-redux';
 
@@ -35,6 +37,9 @@ const LoginScreen = ({navigation, accountType}) => {
     helperTextPassword && setHelperTextPassword('');
     auth()
       .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        AsyncStorage.setItem('@account_type', accountType);
+      })
       .catch((error) => {
         setLoader(false);
         console.log(error);
@@ -87,7 +92,11 @@ const LoginScreen = ({navigation, accountType}) => {
             <TouchableOpacity
               onPress={signIn}
               activeOpacity={0.8}
-              style={email && password && accountType ? styles.button : styles.disabledButton}
+              style={
+                email && password && accountType
+                  ? styles.button
+                  : styles.disabledButton
+              }
               disabled={!(email && password)}>
               <Text
                 style={
@@ -200,7 +209,7 @@ const styles = StyleSheet.create({
   },
   helperText: {
     fontSize: 12,
-    color: '#a171ef',
+    color: '#fe6666',
   },
 });
 

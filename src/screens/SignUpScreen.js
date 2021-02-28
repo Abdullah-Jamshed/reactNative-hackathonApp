@@ -67,6 +67,7 @@ const SignUpScreen = ({
               .set({
                 userUID: currentUser.uid,
                 userName: currentUser.displayName,
+                email,
                 phoneNumber,
                 gender,
                 accountType,

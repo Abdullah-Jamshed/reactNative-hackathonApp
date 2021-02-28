@@ -5,7 +5,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  PermissionsAndroid,
 } from 'react-native';
 
 // Redux
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button: {
-    backgroundColor: '#fe6666',
+    backgroundColor: '#a171ef',
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 10,
@@ -64,7 +63,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 50,
     fontSize: 20,
-    color: '#fe6666',
+    color: '#a171ef',
     fontWeight: 'bold',
   },
 });
