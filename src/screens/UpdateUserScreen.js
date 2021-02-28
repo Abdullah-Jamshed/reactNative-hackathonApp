@@ -41,6 +41,12 @@ const UpdateUserScreen = ({detail}) => {
   const [noOfOpening, setNoOfOpening] = useState('');
   const [reqMarks, setReqMarks] = useState('');
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [gender, setGender] = useState('');
+  const [city, setCity] = useState('');
+
   const submit = () => {};
 
   return (
@@ -70,6 +76,8 @@ const UpdateUserScreen = ({detail}) => {
             <ScrollView
               contentContainerStyle={{
                 flexGrow: 1,
+                width,
+                alignItems:"center"
               }}>
               {detail.accountType == 'student' && (
                 <>
