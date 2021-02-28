@@ -62,7 +62,7 @@ const SignUpScreen = ({
             const currentUser = auth().currentUser;
             const userUID = currentUser.uid;
             firestore()
-              .collection('users')
+              .collection(accountType)
               .doc(userUID)
               .set({
                 userUID: currentUser.uid,
@@ -72,8 +72,8 @@ const SignUpScreen = ({
                 accountType,
               })
               .then(() => {
-                userAuthAction(currentUser);
                 setLoader(false);
+                userAuthAction(currentUser);
               });
           })
           .catch((error) => {

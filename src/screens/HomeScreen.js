@@ -13,6 +13,7 @@ import {connect} from 'react-redux';
 // import {} from '../store/actions/homeActions';
 
 // firebase
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 // icons
@@ -30,9 +31,11 @@ const HomeScreen = ({navigation}) => {
         />
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('JoinGroup')}
+            onPress={() => {
+              auth().signOut();
+            }}
             style={styles.button}>
-            <Text style={styles.buttonText}>Join Group</Text>
+            <Text style={styles.buttonText}>Sign Out</Text>
           </TouchableOpacity>
         </View>
       </View>
