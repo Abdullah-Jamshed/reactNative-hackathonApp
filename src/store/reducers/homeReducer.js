@@ -2,6 +2,7 @@ const INITIAL_STATE = {
   userAuth: null,
   accountType: null,
   formShow: false,
+  detail: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -20,6 +21,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         formShow: action.payload.show,
+      };
+    case 'DETAIL':
+      return {
+        ...state,
+        detail: action.payload.detail,
       };
 
     default:

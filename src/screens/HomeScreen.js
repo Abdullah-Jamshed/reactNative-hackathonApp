@@ -103,7 +103,7 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
           ) : formShow ? (
             <FormFields />
           ) : (
-            <List data={data} loader={loader2} />
+            <List data={data} loader={loader2} navigation={navigation} />
           )}
         </View>
       </View>

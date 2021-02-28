@@ -16,4 +16,10 @@ const setFormShow = (show) => {
   };
 };
 
-export {userAuthAction, setAccountType, setFormShow};
+const setDetail = (detail) => {
+  return (dispatch) => {
+    dispatch({type: 'DETAIL', payload: {detail}});
+  };
+};
+
+export {userAuthAction, setAccountType, setFormShow, setDetail};

@@ -9,12 +9,15 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// redux
+import {connect} from 'react-redux';
+import {setDetail} from '../store/actions/homeActions';
 // icons
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const {width, height} = Dimensions.get('window');
 
-const List = ({data, loader}) => {
+const List = ({navigation, data, loader, setDetail}) => {
   //   console.log(data);
   const [accountType, setAccountType] = useState(null);
   useEffect(() => {
@@ -69,8 +72,8 @@ const List = ({data, loader}) => {
                   return (
                     <TouchableOpacity
                       onPress={() => {
-                        // setGroupDetail(group);
-                        // navigation.navigate('GroupDetail');
+                        setDetail(data);
+                        navigation.navigate('Detail');
                       }}
                       key={i}
                       activeOpacity={1}
@@ -153,4 +156,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default List;
+const mapStatetoProps = (state) => {
+  return {
+    accountType: state.homeReducer.accountType,
+  };
+};
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    setDetail: (detail) => dispatch(setDetail(detail)),
+  };
+};
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(List);

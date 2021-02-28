@@ -10,6 +10,8 @@ import SignUpScreen from '../screens/SignUpScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import UpdateScreen from '../screens/UpdateScreen';
+import DetailScreen from '../screens/DetailScreen';
+
 // redux
 import {connect} from 'react-redux';
 // redux store actions
@@ -40,17 +42,6 @@ const TabBarNav = () => {
         component={ProfileScreen}
         initialParams={{icon: 'user'}}
       />
-      {/* <Tab.Screen
-        name="Groups"
-        component={GroupScreen}
-        initialParams={{icon: 'addusergroup'}}
-      />
-      <Tab.Screen
-        name="Map"
-        component={MapScreen}
-        initialParams={{icon: 'enviromento'}}
-      />
-      */}
     </Tab.Navigator>
   );
 };
@@ -94,10 +85,7 @@ const Navigation = ({userAuth, userAuthAction}) => {
           <>
             <Stack.Screen name="Home" component={TabBarNav} />
             <Stack.Screen name="Update" component={UpdateScreen} />
-
-            {/* <Stack.Screen name="Group" component={TabBarNav} /> */}
-            {/* <Stack.Screen name="Map" component={TabBarNav} /> */}
-            {/* <Stack.Screen name="GroupDetail" component={GroupDetailScreen} /> */}
+            <Stack.Screen name="Detail" component={DetailScreen} />
           </>
         )}
       </Stack.Navigator>
