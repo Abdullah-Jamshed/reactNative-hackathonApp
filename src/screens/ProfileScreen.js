@@ -77,75 +77,144 @@ const ProfileScreen = ({navigation, userAuth}) => {
               </View>
             </View>
           </View>
-          <View style={styles.userDetailWrapper}>
-            {userDetail ? (
-              <View style={styles.userDetailContainer}>
+          {userDetail ? (
+            <>
+              <View style={styles.userDetailWrapper}>
                 {userDetail.accountType == 'student' && (
-                  <View>
-                    <Text style={styles.headingText}>Personal Detail</Text>
-                  </View>
+                  <>
+                    <View style={styles.userDetailContainer}>
+                      <View>
+                        <Text style={styles.headingText}>Personal Detail</Text>
+                      </View>
+
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>Name :</Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.userName}
+                        </Text>
+                      </View>
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>Email :</Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.email}
+                        </Text>
+                      </View>
+
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>Gender :</Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.gender}
+                        </Text>
+                      </View>
+
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>Phone :</Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.phoneNumber}
+                        </Text>
+                      </View>
+                      <View>
+                        <Text style={styles.headingText}>Achievements</Text>
+                      </View>
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>Grade :</Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.grade}
+                        </Text>
+                      </View>
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>Score :</Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.numbers}
+                        </Text>
+                      </View>
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>Courses :</Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.courses}
+                        </Text>
+                      </View>
+                    </View>
+                  </>
                 )}
-                
-                {/* {userDetail.accountType == 'student' && (
-                  <View>
-                    <Text style={styles.headingText}>Personal Detail</Text>
-                  </View>
-                )} */}
+                {userDetail.accountType == 'company' && (
+                  <>
+                    <View style={styles.userDetailContainer}>
+                      <View>
+                        <Text style={styles.headingText}>About us</Text>
+                      </View>
 
-                <View style={styles.userDetail}>
-                  <Text style={styles.userDetailLabel}>Name :</Text>
-                  <Text style={styles.userDetailValue}>
-                    {userDetail.userName}
-                  </Text>
-                </View>
-                <View style={styles.userDetail}>
-                  <Text style={styles.userDetailLabel}>Email :</Text>
-                  <Text style={styles.userDetailValue}>{userDetail.email}</Text>
-                </View>
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>
+                          Company Name :
+                        </Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.userName}
+                        </Text>
+                      </View>
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>Email :</Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.email}
+                        </Text>
+                      </View>
 
-                <View style={styles.userDetail}>
-                  <Text style={styles.userDetailLabel}>Gender :</Text>
-                  <Text style={styles.userDetailValue}>
-                    {userDetail.gender}
-                  </Text>
-                </View>
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>Phone :</Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.phoneNumber}
+                        </Text>
+                      </View>
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>City :</Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.city}
+                        </Text>
+                      </View>
 
-                <View style={styles.userDetail}>
-                  <Text style={styles.userDetailLabel}>Phone :</Text>
-                  <Text style={styles.userDetailValue}>
-                    {userDetail.phoneNumber}
-                  </Text>
-                </View>
-                <View>
-                  <Text style={styles.headingText}>Achievements</Text>
-                </View>
-                <View style={styles.userDetail}>
-                  <Text style={styles.userDetailLabel}>Grade :</Text>
-                  <Text style={styles.userDetailValue}>{userDetail.grade}</Text>
-                </View>
-                <View style={styles.userDetail}>
-                  <Text style={styles.userDetailLabel}>Score :</Text>
-                  <Text style={styles.userDetailValue}>{userDetail.score}</Text>
-                </View>
-                <View style={styles.userDetail}>
-                  <Text style={styles.userDetailLabel}>Courses :</Text>
-                  <Text style={styles.userDetailValue}>
-                    {userDetail.courses}
-                  </Text>
-                </View>
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>
+                          No of Openings :
+                        </Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.noOfOpening}
+                        </Text>
+                      </View>
+
+                      <View>
+                        <Text style={styles.headingText}>Requiments</Text>
+                      </View>
+
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>Grade :</Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.grade}
+                        </Text>
+                      </View>
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>Experence :</Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.experence}
+                        </Text>
+                      </View>
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>
+                          Minimum Marks :
+                        </Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.reqMarks}
+                        </Text>
+                      </View>
+                    </View>
+                  </>
+                )}
               </View>
-            ) : (
-              <View style={styles.loaderContainer}>
-                <ActivityIndicator color={'#a171ef'} size={'large'} />
-              </View>
-            )}
-
-            {/* <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={signOut} style={styles.button}>
-                <Text style={styles.buttonText}>Sign Out</Text>
-              </TouchableOpacity>
-            </View> */}
-          </View>
+            </>
+          ) : (
+            <View style={styles.loaderContainer}>
+              <ActivityIndicator color={'#a171ef'} size={'large'} />
+            </View>
+          )}
         </View>
       )}
     </SafeAreaView>
@@ -216,7 +285,7 @@ const styles = StyleSheet.create({
   userDetailLabel: {
     fontSize: 14,
     fontWeight: 'bold',
-    width: 70,
+    marginRight: 20,
   },
   defaultImage: {
     justifyContent: 'center',
@@ -238,9 +307,10 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   headingText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     paddingVertical: 10,
+    color: '#a171ef',
   },
 });
 
