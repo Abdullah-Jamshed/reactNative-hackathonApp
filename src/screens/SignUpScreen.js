@@ -164,18 +164,18 @@ const styles = StyleSheet.create({
   headingText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#fe6666',
+    color: '#a171ef',
   },
   textInput: {
     borderBottomWidth: 1.5,
-    borderBottomColor: '#fe6666',
+    borderBottomColor: '#a171ef',
     width: width / 1.3,
     paddingVertical: 5,
     paddingHorizontal: 5,
     marginVertical: 10,
   },
   button: {
-    backgroundColor: '#fe6666',
+    backgroundColor: '#a171ef',
     width: width / 1.3,
     padding: 10,
     justifyContent: 'center',
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     left: 20,
   },
   backButtonIcons: {
-    color: '#fe6666',
+    color: '#a171ef',
   },
   disabledButton: {
     backgroundColor: '#e6e6e6',

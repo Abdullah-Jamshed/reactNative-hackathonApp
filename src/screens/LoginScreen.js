@@ -53,7 +53,7 @@ const LoginScreen = ({navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <View style={styles.heading}>
-          <Text style={styles.headingText}>Family Tracker</Text>
+          <Text style={styles.headingText}>Recruitment App</Text>
         </View>
         <TextInput
           value={email}
@@ -104,7 +104,7 @@ const LoginScreen = ({navigation}) => {
             <Text
               style={[
                 styles.buttonText,
-                {color: '#fe6666', fontWeight: 'normal'},
+                {color: '#a171ef', fontWeight: 'normal'},
               ]}>
               Forgot Password?
             </Text>
@@ -116,7 +116,7 @@ const LoginScreen = ({navigation}) => {
             activeOpacity={0.8}
             onPress={() => navigation.navigate('SignUp')}>
             <Text
-              style={[styles.buttonText, {color: '#fe6666', marginLeft: 5}]}>
+              style={[styles.buttonText, {color: '#a171ef', marginLeft: 5}]}>
               Sign Up
             </Text>
           </TouchableOpacity>
@@ -140,18 +140,18 @@ const styles = StyleSheet.create({
   headingText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#fe6666',
+    color: '#a171ef',
   },
   textInput: {
     borderBottomWidth: 1.5,
-    borderBottomColor: '#fe6666',
+    borderBottomColor: '#a171ef',
     width: width / 1.3,
     paddingVertical: 5,
     paddingHorizontal: 5,
     marginVertical: 10,
   },
   button: {
-    backgroundColor: '#fe6666',
+    backgroundColor: '#a171ef',
     width: width / 1.3,
     padding: 10,
     justifyContent: 'center',
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
   },
   helperText: {
     fontSize: 12,
-    color: '#fe6666',
+    color: '#a171ef',
   },
 });
 

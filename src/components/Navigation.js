@@ -72,9 +72,9 @@ const Navigation = ({userAuth, userAuthAction}) => {
     return (
       <View style={styles.initialLogo}>
         <MaterialCommunityIcons
-          name="map-marker-multiple-outline"
+          name="book-search-outline"
           size={100}
-          color="#fe6666"
+          color="#6d67f7"
         />
       </View>
     );
@@ -90,12 +90,9 @@ const Navigation = ({userAuth, userAuthAction}) => {
         ) : (
           <>
             <Stack.Screen name="Home" component={TabBarNav} />
-            <Stack.Screen name="Group" component={TabBarNav} />
-            <Stack.Screen name="Map" component={TabBarNav} />
-            <Stack.Screen name="GroupDetail" component={GroupDetailScreen} />
-            <Stack.Screen name="CreateGroup" component={CreateGroupScreen} />
-            <Stack.Screen name="JoinGroup" component={JoinGroupScreen} />
-            <Stack.Screen name="Update" component={UpdateScreen} />
+            {/* <Stack.Screen name="Group" component={TabBarNav} /> */}
+            {/* <Stack.Screen name="Map" component={TabBarNav} /> */}
+            {/* <Stack.Screen name="GroupDetail" component={GroupDetailScreen} /> */}
           </>
         )}
       </Stack.Navigator>
