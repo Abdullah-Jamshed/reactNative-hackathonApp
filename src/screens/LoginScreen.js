@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
   Dimensions,
   StyleSheet,
   ActivityIndicator,
+  Keyboard,
+  ScrollView,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -31,6 +33,28 @@ const LoginScreen = ({navigation, accountType}) => {
   const [helperTextEmail, setHelperTextEmail] = useState('');
   const [helperTextPassword, setHelperTextPassword] = useState('');
   const [loader, setLoader] = useState(false);
+
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   const signIn = () => {
     setLoader(true);
@@ -93,92 +117,110 @@ const LoginScreen = ({navigation, accountType}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
-        <View style={styles.heading}>
-          <Text style={styles.headingText}>Recruitment App</Text>
-        </View>
-        <View style={{marginTop: 30}}>
-          <DropDown screen="login" />
-          <View style={{alignItems: 'center', marginTop: 30}}>
-            {helperText !== '' && (
-              <View style={styles.helperTextContainer}>
-                <Text style={styles.helperText}>{helperText}</Text>
-              </View>
-            )}
-            <TextInput
-              value={email}
-              style={styles.textInput}
-              placeholder="Email"
-              textContentType="emailAddress"
-              onChangeText={(text) => setEmail(text.trim())}
-            />
-            {helperTextEmail !== '' && (
-              <View style={styles.helperTextContainer}>
-                <Text style={styles.helperText}>{helperTextEmail}</Text>
-              </View>
-            )}
-            <TextInput
-              value={password}
-              style={styles.textInput}
-              onChangeText={(text) => setPassword(text.trim())}
-              placeholder="Password"
-              textContentType="password"
-              secureTextEntry={true}
-            />
-            {helperTextPassword !== '' && (
-              <View style={styles.helperTextContainer}>
-                <Text style={styles.helperText}>{helperTextPassword}</Text>
-              </View>
-            )}
-            <TouchableOpacity
-              onPress={signIn}
-              activeOpacity={0.8}
-              style={
-                email && password && accountType
-                  ? styles.button
-                  : styles.disabledButton
-              }
-              disabled={!(email && password)}>
-              <Text
-                style={
-                  email && password && accountType
-                    ? styles.buttonText
-                    : styles.disabledButtonText
-                }>
-                Log In
-              </Text>
-              {loader && (
-                <ActivityIndicator
-                  color={'#fff'}
-                  size="small"
-                  style={{marginLeft: 5}}
-                />
-              )}
-            </TouchableOpacity>
-
-            <View style={{marginTop: 8}}>
-              <TouchableOpacity activeOpacity={0.8}>
-                <Text
-                  style={[
-                    styles.buttonText,
-                    {color: '#a171ef', fontWeight: 'normal'},
-                  ]}>
-                  Forgot Password?
-                </Text>
-              </TouchableOpacity>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+          }}>
+          <View
+            style={{
+              width,
+              alignItems: 'center',
+              height: '100%',
+              // backgroundColor: 'red',
+            }}>
+            <View style={styles.heading}>
+              <Text style={styles.headingText}>Recruitment App</Text>
             </View>
+            <View style={{marginTop: 30}}>
+              <DropDown screen="login" />
+              <View style={{alignItems: 'center', marginTop: 30}}>
+                {helperText !== '' && (
+                  <View style={styles.helperTextContainer}>
+                    <Text style={styles.helperText}>{helperText}</Text>
+                  </View>
+                )}
+                <TextInput
+                  value={email}
+                  style={styles.textInput}
+                  placeholder="Email"
+                  textContentType="emailAddress"
+                  onChangeText={(text) => setEmail(text.trim())}
+                />
+                {helperTextEmail !== '' && (
+                  <View style={styles.helperTextContainer}>
+                    <Text style={styles.helperText}>{helperTextEmail}</Text>
+                  </View>
+                )}
+                <TextInput
+                  value={password}
+                  style={styles.textInput}
+                  onChangeText={(text) => setPassword(text.trim())}
+                  placeholder="Password"
+                  textContentType="password"
+                  secureTextEntry={true}
+                />
+                {helperTextPassword !== '' && (
+                  <View style={styles.helperTextContainer}>
+                    <Text style={styles.helperText}>{helperTextPassword}</Text>
+                  </View>
+                )}
+                <TouchableOpacity
+                  onPress={signIn}
+                  activeOpacity={0.8}
+                  style={
+                    email && password && accountType
+                      ? styles.button
+                      : styles.disabledButton
+                  }
+                  disabled={!(email && password)}>
+                  <Text
+                    style={
+                      email && password && accountType
+                        ? styles.buttonText
+                        : styles.disabledButtonText
+                    }>
+                    Log In
+                  </Text>
+                  {loader && (
+                    <ActivityIndicator
+                      color={'#fff'}
+                      size="small"
+                      style={{marginLeft: 5}}
+                    />
+                  )}
+                </TouchableOpacity>
+
+                <View style={{marginTop: 8}}>
+                  <TouchableOpacity activeOpacity={0.8}>
+                    <Text
+                      style={[
+                        styles.buttonText,
+                        {color: '#a171ef', fontWeight: 'normal'},
+                      ]}>
+                      Forgot Password?
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+            {!isKeyboardVisible && (
+              <View style={styles.signUp}>
+                <Text>Don't Have account?</Text>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => navigation.navigate('SignUp')}>
+                  <Text
+                    style={[
+                      styles.buttonText,
+                      {color: '#a171ef', marginLeft: 5},
+                    ]}>
+                    Sign Up
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
-        </View>
-        <View style={styles.signUp}>
-          <Text>Don't Have account?</Text>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => navigation.navigate('SignUp')}>
-            <Text
-              style={[styles.buttonText, {color: '#a171ef', marginLeft: 5}]}>
-              Sign Up
-            </Text>
-          </TouchableOpacity>
-        </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );

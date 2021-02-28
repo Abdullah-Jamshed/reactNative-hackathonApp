@@ -7,12 +7,14 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Dimensions,
+  ScrollView,
+  Keyboard,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Redux
 import {connect} from 'react-redux';
-import {setFormShow} from '../store/actions/homeActions';
+import {setFormShow, setKeyboard} from '../store/actions/homeActions';
 
 // firebase
 import auth from '@react-native-firebase/auth';
@@ -27,7 +29,13 @@ import List from '../components/List';
 
 const {width, height} = Dimensions.get('window');
 
-const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
+const HomeScreen = ({
+  navigation,
+  userAuth,
+  formShow,
+  setFormShow,
+  setKeyboard,
+}) => {
   const [data, setData] = useState([]);
   const [loader, setLoader] = useState(true);
   const [loader2, setLoader2] = useState(true);
@@ -70,6 +78,26 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
     }
   };
 
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboard(true); // or some other action
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboard(false); // or some other action
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
   // useEffect(() => {
   //   formShowSet();
   // }, []);
@@ -105,28 +133,34 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
-        <View style={{flex: 1, alignItems: 'center', paddingTop: 20}}>
-          <Text style={styles.heading}>Recruitment App</Text>
-          {accountType == 'admin' ? (
-            <>
-              <Text>Admin</Text>
-            </>
-          ) : (
-            <>
-              {loader || loader2 ? (
-                <ActivityIndicator
-                  style={{height: '100%'}}
-                  color={'#a171ef'}
-                  size={'large'}
-                />
-              ) : formShow ? (
-                <FormFields />
-              ) : (
-                <List data={data} loader={loader2} navigation={navigation} />
-              )}
-            </>
-          )}
-        </View>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            width,
+          }}>
+          <View style={{flex: 1, alignItems: 'center', paddingTop: 20}}>
+            <Text style={styles.heading}>Recruitment App</Text>
+            {accountType == 'admin' ? (
+              <>
+                <Text>Admin</Text>
+              </>
+            ) : (
+              <>
+                {loader || loader2 ? (
+                  <ActivityIndicator
+                    style={{height: '100%'}}
+                    color={'#a171ef'}
+                    size={'large'}
+                  />
+                ) : formShow ? (
+                  <FormFields />
+                ) : (
+                  <List data={data} loader={loader2} navigation={navigation} />
+                )}
+              </>
+            )}
+          </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -169,6 +203,7 @@ const mapStatetoProps = (state) => {
 const mapDispatchtoProps = (dispatch) => {
   return {
     setFormShow: (show) => dispatch(setFormShow(show)),
+    setKeyboard: (flag) => dispatch(setKeyboard(flag)),
   };
 };
 

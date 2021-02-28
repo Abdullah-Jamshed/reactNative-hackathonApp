@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,12 +7,15 @@ import {
   StyleSheet,
 } from 'react-native';
 
+// redux
+import {connect} from 'react-redux';
+
 //  Icons
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const {width, height} = Dimensions.get('window');
 
-const TabBar = ({state: {routes}, navigation}) => {
+const TabBar = ({state: {routes}, navigation, keyboardVisible}) => {
   const [selected, setSelected] = useState('Home');
 
   const routeChange = ({name}) => {
@@ -22,28 +25,33 @@ const TabBar = ({state: {routes}, navigation}) => {
 
   return (
     <View style={styles.wrapper}>
-      <View style={styles.container}>
-        {routes.map((route) => {
-          return (
-            <TouchableOpacity
-              key={route.key}
-              activeOpacity={1}
-              onPress={() => routeChange(route)}
-              style={{alignItems: 'center'}}>
-              {route.params.icon && (
-                <AntDesign
-                  name={route.params.icon}
-                  color={route.name == selected ? '#5927ab' : '#b8b8b8'}
-                  size={20}
-                />
-              )}
-              <Text style={{color: route.name == selected ? '#5927ab' : '#b8b8b8'}}>
-                {route.name}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
+      {!keyboardVisible && (
+        <View style={styles.container}>
+          {routes.map((route) => {
+            return (
+              <TouchableOpacity
+                key={route.key}
+                activeOpacity={1}
+                onPress={() => routeChange(route)}
+                style={{alignItems: 'center'}}>
+                {route.params.icon && (
+                  <AntDesign
+                    name={route.params.icon}
+                    color={route.name == selected ? '#5927ab' : '#b8b8b8'}
+                    size={20}
+                  />
+                )}
+                <Text
+                  style={{
+                    color: route.name == selected ? '#5927ab' : '#b8b8b8',
+                  }}>
+                  {route.name}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      )}
     </View>
   );
 };
@@ -76,4 +84,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabBar;
+const mapStatetoProps = (state) => {
+  return {
+    keyboardVisible: state.homeReducer.keyboardVisible,
+  };
+};
+const mapDispatchtoProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(TabBar);

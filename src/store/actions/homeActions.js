@@ -21,5 +21,10 @@ const setDetail = (detail) => {
     dispatch({type: 'DETAIL', payload: {detail}});
   };
 };
+const setKeyboard = (keyboardVisible) => {
+  return (dispatch) => {
+    dispatch({type: 'KEYBOARD', payload: {keyboardVisible}});
+  };
+};
 
-export {userAuthAction, setAccountType, setFormShow, setDetail};
+export {userAuthAction, setAccountType, setFormShow, setDetail, setKeyboard};

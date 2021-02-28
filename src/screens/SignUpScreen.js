@@ -8,6 +8,7 @@ import {
   Dimensions,
   StyleSheet,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 
 // Redux
@@ -136,187 +137,210 @@ const SignUpScreen = ({
             <Text style={styles.headingText}>Sign Up</Text>
           </View>
         </View>
-        <DropDown />
-        {accountType == 'student' && (
-          <>
-            <View style={styles.fields}>
-              <TextInput
-                value={name}
-                onChangeText={(text) => setName(text)}
-                style={styles.textInput}
-                placeholder="Full Name"
-                textContentType="name"
-              />
-              <TextInput
-                value={email}
-                onChangeText={(text) => setEmail(text.trim())}
-                style={styles.textInput}
-                placeholder="Email"
-                textContentType="emailAddress"
-              />
-              <View style={styles.helperTextContainer}>
-                {helperTextEmail !== '' && (
-                  <Text style={styles.helperText}>{helperTextEmail}</Text>
-                )}
-              </View>
-              <TextInput
-                value={password}
-                onChangeText={(text) => setPassword(text.trim())}
-                style={styles.textInput}
-                placeholder="Password"
-                textContentType="password"
-                secureTextEntry={true}
-              />
-              <View style={styles.helperTextContainer}>
-                {helperTextPassword !== '' && (
-                  <Text style={styles.helperText}>{helperTextPassword}</Text>
-                )}
-              </View>
-              <TextInput
-                value={phoneNumber}
-                onChangeText={(text) => setPhoneNumber(text.trim())}
-                style={styles.textInput}
-                placeholder="Phone Number"
-                keyboardType="number-pad"
-              />
-              <View style={styles.genderButtonCont}>
-                <TouchableOpacity
-                  activeOpacity={1}
-                  style={styles.genderButton}
-                  onPress={() => {
-                    setGender('male');
-                  }}>
-                  <View
-                    style={
-                      gender == 'male' ? styles.fillCircle : styles.emptyCircle
-                    }
+        <ScrollView contentContainerStyle={{}}>
+          <View style={{width,alignItems:"center"}}>
+            <DropDown />
+            {accountType == 'student' && (
+              <>
+                <View style={styles.fields}>
+                  <TextInput
+                    value={name}
+                    onChangeText={(text) => setName(text)}
+                    style={styles.textInput}
+                    placeholder="Full Name"
+                    textContentType="name"
                   />
-                  <Text style={styles.genderButtonText}>Male</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  activeOpacity={1}
-                  style={styles.genderButton}
-                  onPress={() => {
-                    setGender('female');
-                  }}>
-                  <View
-                    style={
-                      gender == 'female'
-                        ? styles.fillCircle
-                        : styles.emptyCircle
-                    }
+                  <TextInput
+                    value={email}
+                    onChangeText={(text) => setEmail(text.trim())}
+                    style={styles.textInput}
+                    placeholder="Email"
+                    textContentType="emailAddress"
                   />
-                  <Text style={styles.genderButtonText}>Female</Text>
+                  <View style={styles.helperTextContainer}>
+                    {helperTextEmail !== '' && (
+                      <Text style={styles.helperText}>{helperTextEmail}</Text>
+                    )}
+                  </View>
+                  <TextInput
+                    value={password}
+                    onChangeText={(text) => setPassword(text.trim())}
+                    style={styles.textInput}
+                    placeholder="Password"
+                    textContentType="password"
+                    secureTextEntry={true}
+                  />
+                  <View style={styles.helperTextContainer}>
+                    {helperTextPassword !== '' && (
+                      <Text style={styles.helperText}>
+                        {helperTextPassword}
+                      </Text>
+                    )}
+                  </View>
+                  <TextInput
+                    value={phoneNumber}
+                    onChangeText={(text) => setPhoneNumber(text.trim())}
+                    style={styles.textInput}
+                    placeholder="Phone Number"
+                    keyboardType="number-pad"
+                  />
+                  <View style={styles.genderButtonCont}>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      style={styles.genderButton}
+                      onPress={() => {
+                        setGender('male');
+                      }}>
+                      <View
+                        style={
+                          gender == 'male'
+                            ? styles.fillCircle
+                            : styles.emptyCircle
+                        }
+                      />
+                      <Text style={styles.genderButtonText}>Male</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      style={styles.genderButton}
+                      onPress={() => {
+                        setGender('female');
+                      }}>
+                      <View
+                        style={
+                          gender == 'female'
+                            ? styles.fillCircle
+                            : styles.emptyCircle
+                        }
+                      />
+                      <Text style={styles.genderButtonText}>Female</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <TouchableOpacity
+                  onPress={SignUp}
+                  activeOpacity={0.8}
+                  style={
+                    name &&
+                    email &&
+                    password &&
+                    phoneNumber &&
+                    gender &&
+                    accountType
+                      ? styles.button
+                      : styles.disabledButton
+                  }
+                  disabled={
+                    !(name && email && password && phoneNumber && gender)
+                  }>
+                  <Text
+                    style={
+                      name &&
+                      email &&
+                      password &&
+                      phoneNumber &&
+                      gender &&
+                      accountType
+                        ? styles.buttonText
+                        : styles.disabledButtonText
+                    }>
+                    Sign Up
+                  </Text>
+                  {loader && (
+                    <ActivityIndicator color={'#fff'} size={'small'} />
+                  )}
                 </TouchableOpacity>
-              </View>
-            </View>
-            <TouchableOpacity
-              onPress={SignUp}
-              activeOpacity={0.8}
-              style={
-                name &&
-                email &&
-                password &&
-                phoneNumber &&
-                gender &&
-                accountType
-                  ? styles.button
-                  : styles.disabledButton
-              }
-              disabled={!(name && email && password && phoneNumber && gender)}>
-              <Text
-                style={
-                  name &&
-                  email &&
-                  password &&
-                  phoneNumber &&
-                  gender &&
-                  accountType
-                    ? styles.buttonText
-                    : styles.disabledButtonText
-                }>
-                Sign Up
-              </Text>
-              {loader && <ActivityIndicator color={'#fff'} size={'small'} />}
-            </TouchableOpacity>
-          </>
-        )}
+              </>
+            )}
 
-        {accountType == 'company' && (
-          <>
-            <View style={styles.fields}>
-              <TextInput
-                value={name}
-                onChangeText={(text) => setName(text)}
-                style={styles.textInput}
-                placeholder="Company Name"
-                textContentType="name"
-              />
-              <TextInput
-                value={email}
-                onChangeText={(text) => setEmail(text.trim())}
-                style={styles.textInput}
-                placeholder="Email"
-                textContentType="emailAddress"
-              />
-              <View style={styles.helperTextContainer}>
-                {helperTextEmail !== '' && (
-                  <Text style={styles.helperText}>{helperTextEmail}</Text>
-                )}
-              </View>
-              <TextInput
-                value={password}
-                onChangeText={(text) => setPassword(text.trim())}
-                style={styles.textInput}
-                placeholder="Password"
-                textContentType="password"
-                secureTextEntry={true}
-              />
-              <View style={styles.helperTextContainer}>
-                {helperTextPassword !== '' && (
-                  <Text style={styles.helperText}>{helperTextPassword}</Text>
-                )}
-              </View>
-              <TextInput
-                value={phoneNumber}
-                onChangeText={(text) => setPhoneNumber(text.trim())}
-                style={styles.textInput}
-                placeholder="Phone Number"
-                keyboardType="number-pad"
-              />
-              <TextInput
-                value={city}
-                onChangeText={(text) => setCity(text.trim())}
-                style={styles.textInput}
-                placeholder="City"
-              />
-            </View>
-            <TouchableOpacity
-              onPress={SignUp}
-              activeOpacity={0.8}
-              style={
-                name && email && password && phoneNumber && city && accountType
-                  ? styles.button
-                  : styles.disabledButton
-              }
-              disabled={!(name && email && password && city && phoneNumber)}>
-              <Text
-                style={
-                  name &&
-                  email &&
-                  password &&
-                  phoneNumber &&
-                  city &&
-                  accountType
-                    ? styles.buttonText
-                    : styles.disabledButtonText
-                }>
-                Sign Up
-              </Text>
-              {loader && <ActivityIndicator color={'#fff'} size={'small'} />}
-            </TouchableOpacity>
-          </>
-        )}
+            {accountType == 'company' && (
+              <>
+                <View style={styles.fields}>
+                  <TextInput
+                    value={name}
+                    onChangeText={(text) => setName(text)}
+                    style={styles.textInput}
+                    placeholder="Company Name"
+                    textContentType="name"
+                  />
+                  <TextInput
+                    value={email}
+                    onChangeText={(text) => setEmail(text.trim())}
+                    style={styles.textInput}
+                    placeholder="Email"
+                    textContentType="emailAddress"
+                  />
+                  <View style={styles.helperTextContainer}>
+                    {helperTextEmail !== '' && (
+                      <Text style={styles.helperText}>{helperTextEmail}</Text>
+                    )}
+                  </View>
+                  <TextInput
+                    value={password}
+                    onChangeText={(text) => setPassword(text.trim())}
+                    style={styles.textInput}
+                    placeholder="Password"
+                    textContentType="password"
+                    secureTextEntry={true}
+                  />
+                  <View style={styles.helperTextContainer}>
+                    {helperTextPassword !== '' && (
+                      <Text style={styles.helperText}>
+                        {helperTextPassword}
+                      </Text>
+                    )}
+                  </View>
+                  <TextInput
+                    value={phoneNumber}
+                    onChangeText={(text) => setPhoneNumber(text.trim())}
+                    style={styles.textInput}
+                    placeholder="Phone Number"
+                    keyboardType="number-pad"
+                  />
+                  <TextInput
+                    value={city}
+                    onChangeText={(text) => setCity(text.trim())}
+                    style={styles.textInput}
+                    placeholder="City"
+                  />
+                </View>
+                <TouchableOpacity
+                  onPress={SignUp}
+                  activeOpacity={0.8}
+                  style={
+                    name &&
+                    email &&
+                    password &&
+                    phoneNumber &&
+                    city &&
+                    accountType
+                      ? styles.button
+                      : styles.disabledButton
+                  }
+                  disabled={
+                    !(name && email && password && city && phoneNumber)
+                  }>
+                  <Text
+                    style={
+                      name &&
+                      email &&
+                      password &&
+                      phoneNumber &&
+                      city &&
+                      accountType
+                        ? styles.buttonText
+                        : styles.disabledButtonText
+                    }>
+                    Sign Up
+                  </Text>
+                  {loader && (
+                    <ActivityIndicator color={'#fff'} size={'small'} />
+                  )}
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
