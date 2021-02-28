@@ -45,7 +45,6 @@ const HomeScreen = ({navigation, formShow, setFormShow, setKeyboard}) => {
   };
 
   const fetchData = async () => {
-    console.log(accountType);
     if (accountType) {
       const fetchCollectionOf =
         accountType == 'student'
@@ -55,7 +54,6 @@ const HomeScreen = ({navigation, formShow, setFormShow, setKeyboard}) => {
           : accountType == 'admin'
           ? 'both'
           : null;
-      console.log('<==>', fetchCollectionOf);
       if (fetchCollectionOf !== 'both' && fetchCollectionOf) {
         firestore()
           .collection(`${fetchCollectionOf}`)
@@ -70,7 +68,6 @@ const HomeScreen = ({navigation, formShow, setFormShow, setKeyboard}) => {
           .collection(`${active}`)
           .get()
           .then((dataArr) => {
-            console.log(dataArr.docs);
             setData(dataArr.docs);
             setLoader2(false);
           })
@@ -104,7 +101,6 @@ const HomeScreen = ({navigation, formShow, setFormShow, setKeyboard}) => {
   useEffect(() => {
     const getType = async () => {
       const value = await AsyncStorage.getItem('@account_type');
-      console.log(value);
       setAccountType(value);
       if (value !== 'admin') {
         formShowSet();

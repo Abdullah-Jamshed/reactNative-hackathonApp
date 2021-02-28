@@ -40,7 +40,7 @@ const UpdateScreen = ({navigation, userAuth, userAuthAction}) => {
     launchImageLibrary(options, (response) => {
       if (response.didCancel) {
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+        // console.log('ImagePicker Error: ', response.error);
       } else {
         const source = {uri: response.uri};
         setImage(source);
@@ -53,7 +53,7 @@ const UpdateScreen = ({navigation, userAuth, userAuthAction}) => {
       if (response.didCancel) {
         setImage(null);
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+        // console.log('ImagePicker Error: ', response.error);
       } else {
         const source = {uri: response.uri};
         setImage(source);
@@ -89,11 +89,11 @@ const UpdateScreen = ({navigation, userAuth, userAuthAction}) => {
             })
             .catch((error) => {
               // An error happened.
-              console.log('Update Unsuccessful.', error);
+              // console.log('Update Unsuccessful.', error);
             });
         });
       } catch (e) {
-        console.error(e);
+        // console.error(e);
       }
     }
   };

@@ -44,7 +44,6 @@ const DetailScreen = ({navigation, detail, setDetail}) => {
   useEffect(() => {
     const getType = async () => {
       const value = await AsyncStorage.getItem('@account_type');
-      console.log(value);
       setAccountType(value);
     };
     getType();

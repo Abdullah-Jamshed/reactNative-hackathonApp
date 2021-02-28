@@ -40,7 +40,6 @@ const ProfileScreen = ({navigation, userAuth}) => {
         .doc('9C8nVNVKnyLtbl4YcOM0vJGRwMJ2')
         .get();
       setUserDetail(data.data());
-      console.log(data.data());
     } else {
       const data = await firestore().collection(type).doc(userAuth.uid).get();
       setUserDetail(data.data());

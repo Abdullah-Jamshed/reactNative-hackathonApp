@@ -55,10 +55,10 @@ const FormFields = ({userAuth, formShow, setFormShow}) => {
         .then(() => {
           AsyncStorage.setItem('@show_form', 'false');
           setFormShow(false);
-          console.log('Form Update Successfully');
+          // console.log('Form Update Successfully');
         })
         .catch((err) => {
-          console.log('err ==>>> ', err);
+          // console.log('err ==>>> ', err);
         });
     }
   };

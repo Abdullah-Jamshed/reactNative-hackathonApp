@@ -97,7 +97,7 @@ const SignUpScreen = ({
           .catch((error) => {
             setLoader(false);
             // An error happened.
-            console.log('Update Unsuccessful.', error);
+            // console.log('Update Unsuccessful.', error);
           });
       })
       .catch((error) => {

@@ -67,7 +67,6 @@ const LoginScreen = ({navigation, accountType}) => {
         })
         .catch((error) => {
           setLoader(false);
-          console.log(error);
           if (error.code === 'auth/invalid-email') {
             setHelperTextEmail('Invalid Email address !');
           }
@@ -89,7 +88,6 @@ const LoginScreen = ({navigation, accountType}) => {
         })
         .catch((error) => {
           setLoader(false);
-          console.log(error);
           if (error.code === 'auth/invalid-email') {
             setHelperTextEmail('Invalid Email address !');
           }
@@ -98,7 +96,6 @@ const LoginScreen = ({navigation, accountType}) => {
           }
           if (error.code === 'auth/wrong-password') {
             setHelperTextPassword('Wrong Password !');
-            console.log('adas');
           }
           if (error.code === 'auth/too-many-requests') {
             setHelperText('Some thing went Wrong !');
