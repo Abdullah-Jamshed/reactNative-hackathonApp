@@ -114,19 +114,19 @@ const ProfileScreen = ({navigation, userAuth}) => {
                 <View style={styles.userDetail}>
                   <Text style={styles.userDetailLabel}>Grade :</Text>
                   <Text style={styles.userDetailValue}>
-                    {/* {userDetail.phoneNumber} */}A
+                    {userDetail.grade}
                   </Text>
                 </View>
                 <View style={styles.userDetail}>
                   <Text style={styles.userDetailLabel}>Score :</Text>
                   <Text style={styles.userDetailValue}>
-                    {/* {userDetail.phoneNumber} */}846/875
+                    {userDetail.score}
                   </Text>
                 </View>
                 <View style={styles.userDetail}>
                   <Text style={styles.userDetailLabel}>Courses :</Text>
                   <Text style={styles.userDetailValue}>
-                    {/* {userDetail.phoneNumber} */}10
+                    {userDetail.courses}
                   </Text>
                 </View>
               </View>
@@ -230,7 +230,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   loaderContainer: {
-    // height: height / 2,
     justifyContent: 'center',
     padding: 20,
   },
