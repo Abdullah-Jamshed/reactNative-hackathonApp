@@ -168,7 +168,7 @@ const DetailScreen = ({navigation, detail, setDetail}) => {
                   <View style={styles.userDetail}>
                     <Text style={styles.userDetailLabel}>No of Openings :</Text>
                     <Text style={styles.userDetailValue}>
-                      {detail.reqMarks}
+                      {detail.noOfOpening}
                     </Text>
                   </View>
 

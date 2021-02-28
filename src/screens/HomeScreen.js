@@ -36,10 +36,11 @@ const HomeScreen = ({navigation, userAuth,formShow, setFormShow, setKeyboard}) =
 
   const formShowSet = async () => {
     const value = await AsyncStorage.getItem(`@show_form_${userAuth.userUID}`);
-    if (value !== 'false') {
-      setFormShow(!(value == 'false'));
+    if (value !== 'falseFlag') {
+      setFormShow(true);
+      // setFormShow(!(value == 'false'));
       setLoader(false);
-    } else if (value == 'false') {
+    } else if (value == 'falseFlag') {
       setLoader(false);
     }
   };
