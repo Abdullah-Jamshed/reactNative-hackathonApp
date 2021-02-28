@@ -11,7 +11,7 @@ import {
 
 // Redux
 import {connect} from 'react-redux';
-// import {} from '../store/actions/homeActions';
+import {setFormShow} from '../store/actions/homeActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // firebase
@@ -26,8 +26,8 @@ import FormFields from '../components/FormFields';
 
 const {width, height} = Dimensions.get('window');
 
-const HomeScreen = ({navigation, userAuth}) => {
-  const [formShow, setFormShow] = useState(null);
+const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
+  // const [formShow, setFormShow] = useState(null);
   const [loader, setLoader] = useState(true);
 
   // const submit = async () => {
@@ -49,7 +49,7 @@ const HomeScreen = ({navigation, userAuth}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
-        <View style={{flex: 1, alignItems: 'center',paddingTop:20}}>
+        <View style={{flex: 1, alignItems: 'center', paddingTop: 20}}>
           {/* <Text style={styles.heading}>Recruitment App</Text> */}
           {loader ? (
             <ActivityIndicator color={'#a171ef'} size={'small'} />
@@ -90,8 +90,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   heading: {
-    // position: 'absolute',
-    // top: 50,
     fontSize: 20,
     color: '#a171ef',
     fontWeight: 'bold',
@@ -101,10 +99,13 @@ const styles = StyleSheet.create({
 const mapStatetoProps = (state) => {
   return {
     userAuth: state.homeReducer.userAuth,
+    formShow: state.homeReducer.formShow,
   };
 };
 const mapDispatchtoProps = (dispatch) => {
-  return {};
+  return {
+    setFormShow: (show) => dispatch(setFormShow(show)),
+  };
 };
 
 export default connect(mapStatetoProps, mapDispatchtoProps)(HomeScreen);

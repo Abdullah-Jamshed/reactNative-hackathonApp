@@ -169,8 +169,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     marginVertical: 10,
   },
+  signUp: {
+    position: 'absolute',
+    bottom: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginTop: 10,
+  },
   button: {
-    backgroundColor: '#a171ef',
+  backgroundColor: '#a171ef',
     width: width / 1.3,
     padding: 10,
     justifyContent: 'center',
@@ -182,14 +190,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffff',
     fontSize: 15,
-  },
-  signUp: {
-    position: 'absolute',
-    bottom: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginTop: 10,
   },
   disabledButton: {
     backgroundColor: '#e6e6e6',

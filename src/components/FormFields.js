@@ -9,10 +9,18 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// firebase
+import firestore from '@react-native-firebase/firestore';
+
+//redux
+import {connect} from 'react-redux';
+import {setFormShow} from '../store/actions/homeActions';
+
 const {width, height} = Dimensions.get('window');
 
-const FormFields = () => {
+const FormFields = ({userAuth, setFormShow}) => {
   const [accountType, setAccountType] = useState(null);
+  const [loader, setLoader] = useState(false);
 
   const [grade, setGrade] = useState('');
   const [numbers, setNumbers] = useState('');
@@ -22,9 +30,42 @@ const FormFields = () => {
   const [noOfOpening, setNoOfOpening] = useState('');
   const [reqMarks, setReqMarks] = useState('');
 
+  //   const [updateObject, setUpdateObject] = useState(null);
+
   const submit = async () => {
-    // AsyncStorage.setItem('@show_form', 'true');
-    // setFormShow(false);
+    var updateObject;
+    if (accountType == 'student') {
+      updateObject = {
+        grade,
+        numbers,
+        courses,
+      };
+      //   setUpdateObject(obj);
+    } else if (accountType == 'company') {
+      updateObject = {
+        grade,
+        experence,
+        noOfOpening,
+        reqMarks,
+      };
+      //   setUpdateObject(obj);
+    }
+
+    if (updateObject) {
+      firestore()
+        .collection(accountType)
+        .doc(userAuth.uid)
+        .update(updateObject)
+        .then(() => {
+          AsyncStorage.setItem('@show_form', 'true');
+          setFormShow(false);
+          console.log('Form Update Successfully');
+        })
+        .catch((err) => {
+          console.log('err ==>>> ', err);
+        });
+    }
+    // console.log('working ...',updateObject);
   };
 
   useEffect(() => {
@@ -59,6 +100,31 @@ const FormFields = () => {
             placeholder="Courses"
             onChangeText={(text) => setCourses(text.trim())}
           />
+          <TouchableOpacity
+            onPress={submit}
+            activeOpacity={0.8}
+            style={
+              grade && courses && numbers
+                ? styles.button
+                : styles.disabledButton
+            }
+            disabled={!(grade && courses && numbers)}>
+            <Text
+              style={
+                grade && courses && numbers
+                  ? styles.buttonText
+                  : styles.disabledButtonText
+              }>
+              submit
+            </Text>
+            {loader && (
+              <ActivityIndicator
+                color={'#fff'}
+                size="small"
+                style={{marginLeft: 5}}
+              />
+            )}
+          </TouchableOpacity>
         </View>
       )}
       {accountType == 'company' && (
@@ -88,13 +154,34 @@ const FormFields = () => {
             placeholder="Least Marks"
             onChangeText={(text) => setReqMarks(text.trim())}
           />
+          <TouchableOpacity
+            onPress={submit}
+            activeOpacity={0.8}
+            style={
+              grade && noOfOpening && experence && reqMarks
+                ? styles.button
+                : styles.disabledButton
+            }
+            disabled={!(grade && noOfOpening && experence && reqMarks)}>
+            <Text
+              style={
+                grade && noOfOpening && experence && reqMarks
+                  ? styles.buttonText
+                  : styles.disabledButtonText
+              }>
+              submit
+            </Text>
+            {loader && (
+              <ActivityIndicator
+                color={'#fff'}
+                size="small"
+                style={{marginLeft: 5}}
+              />
+            )}
+          </TouchableOpacity>
         </View>
       )}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={submit} style={styles.button}>
-          <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
-      </View>
+      <View style={styles.buttonContainer}></View>
     </View>
   );
 };
@@ -117,20 +204,57 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   buttonContainer: {
-    alignItems: 'center',
     marginTop: 20,
   },
-  button: {
-    backgroundColor: '#a171ef',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 10,
-  },
+  //   button: {
+  //     backgroundColor: '#a171ef',
+  //     paddingVertical: 10,
+  //     paddingHorizontal: 15,
+  //     borderRadius: 10,
+  //   },
   buttonText: {
     fontSize: 15,
     color: '#ffffff',
     fontWeight: 'bold',
   },
+  button: {
+    backgroundColor: '#a171ef',
+    width: width / 1.3,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    flexDirection: 'row',
+  },
+  buttonText: {
+    fontWeight: 'bold',
+    color: '#ffffff',
+    fontSize: 15,
+  },
+  disabledButton: {
+    backgroundColor: '#e6e6e6',
+    width: width / 1.3,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  disabledButtonText: {
+    fontWeight: 'bold',
+    color: '#586069',
+    fontSize: 15,
+  },
 });
 
-export default FormFields;
+const mapStatetoProps = (state) => {
+  return {
+    userAuth: state.homeReducer.userAuth,
+  };
+};
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    setFormShow: (show) => dispatch(setFormShow(sow)),
+  };
+};
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(FormFields);
