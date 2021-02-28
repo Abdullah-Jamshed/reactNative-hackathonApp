@@ -37,8 +37,6 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
   const formShowSet = async () => {
     const value = await AsyncStorage.getItem('@show_form');
     if (value !== 'false') {
-      console.log('account type ==>> 1 ', !value);
-      // console.log('account type ==>> 1 ', value == 'false');
       setFormShow(!(value == 'false'));
       setLoader(false);
     } else if (value == 'false') {
