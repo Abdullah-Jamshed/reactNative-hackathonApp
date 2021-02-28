@@ -58,9 +58,9 @@ const DetailScreen = ({navigation, userAuth, detail, setDetail}) => {
               </TouchableOpacity>
             </View>
             <View style={styles.photoCircle}>
-              {userAuth.photoURL ? (
+              {detail.photoURL ? (
                 <Image
-                  source={{uri: userAuth.photoURL}}
+                  source={{uri: detail.photoURL}}
                   style={styles.imageStyle}
                 />
               ) : (

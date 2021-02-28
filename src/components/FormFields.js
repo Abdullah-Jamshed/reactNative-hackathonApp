@@ -82,7 +82,8 @@ const FormFields = ({userAuth, formShow, setFormShow}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Complete Information :</Text>
+      <Text style={styles.heading}>Complete Form :</Text>
+      <Text style={styles.helperText}>complete form to use app</Text>
 
       {accountType == 'student' && (
         <View>
@@ -246,6 +247,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#586069',
     fontSize: 15,
+  },
+  helperText: {
+    fontSize: 12,
+    color:"#a171ef"
   },
 });
 

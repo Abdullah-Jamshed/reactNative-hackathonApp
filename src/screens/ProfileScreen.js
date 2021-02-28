@@ -49,6 +49,12 @@ const ProfileScreen = ({navigation, userAuth}) => {
           <View style={styles.photoContainer}>
             <View style={styles.buttonContainer}>
               <TouchableOpacity onPress={signOut} style={styles.button}>
+                <AntDesign
+                  name="logout"
+                  color={'#a171ef'}
+                  style={{marginHorizontal: 5}}
+                  size={20}
+                />
                 <Text style={styles.buttonText}>Sign Out</Text>
               </TouchableOpacity>
             </View>
@@ -227,11 +233,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   buttonContainer: {
-    width: 100,
+    width: 110,
     // alignItems: 'center',
     position: 'absolute',
     top: 10,
     right: 10,
+    // padding:
   },
   button: {
     backgroundColor: '#fff',
@@ -240,6 +247,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
   },
   buttonText: {
     fontSize: 15,

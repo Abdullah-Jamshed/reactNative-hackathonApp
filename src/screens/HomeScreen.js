@@ -93,7 +93,7 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <View style={{flex: 1, alignItems: 'center', paddingTop: 20}}>
-          {/* <Text style={styles.heading}>Recruitment App</Text> */}
+          <Text style={styles.heading}>Recruitment App</Text>
           {loader || loader2 ? (
             <ActivityIndicator
               style={{height: '100%'}}
@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
     alignItems: 'center',
-    // justifyContent: 'center',
   },
   buttonContainer: {
     alignItems: 'center',
