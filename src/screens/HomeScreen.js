@@ -23,20 +23,15 @@ const HomeScreen = ({navigation}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
-        <Text style={styles.heading}>Location Tracker</Text>
-        <MaterialCommunityIcons
-          name="map-marker-multiple-outline"
-          size={100}
-          color="#fe6666"
-        />
+        <Text style={styles.heading}>Recruitment App</Text>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               auth().signOut();
             }}
             style={styles.button}>
             <Text style={styles.buttonText}>Sign Out</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </SafeAreaView>

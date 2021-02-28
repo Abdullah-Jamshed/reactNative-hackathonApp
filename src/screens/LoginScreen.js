@@ -18,10 +18,11 @@ import auth from '@react-native-firebase/auth';
 
 // Screen
 //Component
+import DropDown from '../components/DropDown';
 
 const {width, height} = Dimensions.get('window');
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({navigation, accountType}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [helperTextEmail, setHelperTextEmail] = useState('');
@@ -55,60 +56,68 @@ const LoginScreen = ({navigation}) => {
         <View style={styles.heading}>
           <Text style={styles.headingText}>Recruitment App</Text>
         </View>
-        <TextInput
-          value={email}
-          style={styles.textInput}
-          placeholder="Email"
-          textContentType="emailAddress"
-          onChangeText={(text) => setEmail(text.trim())}
-        />
-        {helperTextEmail !== '' && (
-          <View style={styles.helperTextContainer}>
-            <Text style={styles.helperText}>{helperTextEmail}</Text>
-          </View>
-        )}
-        <TextInput
-          value={password}
-          style={styles.textInput}
-          onChangeText={(text) => setPassword(text.trim())}
-          placeholder="Password"
-          textContentType="password"
-          secureTextEntry={true}
-        />
-        {helperTextPassword !== '' && (
-          <View style={styles.helperTextContainer}>
-            <Text style={styles.helperText}>{helperTextPassword}</Text>
-          </View>
-        )}
-        <TouchableOpacity
-          onPress={signIn}
-          activeOpacity={0.8}
-          style={email && password ? styles.button : styles.disabledButton}
-          disabled={!(email && password)}>
-          <Text
-            style={
-              email && password ? styles.buttonText : styles.disabledButtonText
-            }>
-            Log In
-          </Text>
-          {loader && (
-            <ActivityIndicator
-              color={'#fff'}
-              size="small"
-              style={{marginLeft: 5}}
+        <View style={{marginTop: 30}}>
+          <DropDown />
+          <View style={{alignItems: 'center', marginTop: 30}}>
+            <TextInput
+              value={email}
+              style={styles.textInput}
+              placeholder="Email"
+              textContentType="emailAddress"
+              onChangeText={(text) => setEmail(text.trim())}
             />
-          )}
-        </TouchableOpacity>
-        <View style={{marginTop: 8}}>
-          <TouchableOpacity activeOpacity={0.8}>
-            <Text
-              style={[
-                styles.buttonText,
-                {color: '#a171ef', fontWeight: 'normal'},
-              ]}>
-              Forgot Password?
-            </Text>
-          </TouchableOpacity>
+            {helperTextEmail !== '' && (
+              <View style={styles.helperTextContainer}>
+                <Text style={styles.helperText}>{helperTextEmail}</Text>
+              </View>
+            )}
+            <TextInput
+              value={password}
+              style={styles.textInput}
+              onChangeText={(text) => setPassword(text.trim())}
+              placeholder="Password"
+              textContentType="password"
+              secureTextEntry={true}
+            />
+            {helperTextPassword !== '' && (
+              <View style={styles.helperTextContainer}>
+                <Text style={styles.helperText}>{helperTextPassword}</Text>
+              </View>
+            )}
+            <TouchableOpacity
+              onPress={signIn}
+              activeOpacity={0.8}
+              style={email && password && accountType ? styles.button : styles.disabledButton}
+              disabled={!(email && password)}>
+              <Text
+                style={
+                  email && password && accountType
+                    ? styles.buttonText
+                    : styles.disabledButtonText
+                }>
+                Log In
+              </Text>
+              {loader && (
+                <ActivityIndicator
+                  color={'#fff'}
+                  size="small"
+                  style={{marginLeft: 5}}
+                />
+              )}
+            </TouchableOpacity>
+
+            <View style={{marginTop: 8}}>
+              <TouchableOpacity activeOpacity={0.8}>
+                <Text
+                  style={[
+                    styles.buttonText,
+                    {color: '#a171ef', fontWeight: 'normal'},
+                  ]}>
+                  Forgot Password?
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
         <View style={styles.signUp}>
           <Text>Don't Have account?</Text>
@@ -130,12 +139,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 20,
   },
   heading: {
-    position: 'absolute',
-    top: 25,
+    // position: 'absolute',
+    // top: 25,
   },
   headingText: {
     fontSize: 20,
@@ -195,7 +205,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStatetoProps = (state) => {
-  return {};
+  return {
+    accountType: state.homeReducer.accountType,
+  };
 };
 const mapDispatchtoProps = () => {
   return {};

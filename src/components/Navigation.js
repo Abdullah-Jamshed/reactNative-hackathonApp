@@ -8,6 +8,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import HomeScreen from '../screens/HomeScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import UpdateScreen from '../screens/UpdateScreen';
 // redux
 import {connect} from 'react-redux';
 // redux store actions
@@ -33,6 +35,11 @@ const TabBarNav = () => {
         component={HomeScreen}
         initialParams={{icon: 'home'}}
       />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        initialParams={{icon: 'user'}}
+      />
       {/* <Tab.Screen
         name="Groups"
         component={GroupScreen}
@@ -43,11 +50,7 @@ const TabBarNav = () => {
         component={MapScreen}
         initialParams={{icon: 'enviromento'}}
       />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        initialParams={{icon: 'user'}}
-      /> */}
+      */}
     </Tab.Navigator>
   );
 };
@@ -90,6 +93,8 @@ const Navigation = ({userAuth, userAuthAction}) => {
         ) : (
           <>
             <Stack.Screen name="Home" component={TabBarNav} />
+            <Stack.Screen name="Update" component={UpdateScreen} />
+
             {/* <Stack.Screen name="Group" component={TabBarNav} /> */}
             {/* <Stack.Screen name="Map" component={TabBarNav} /> */}
             {/* <Stack.Screen name="GroupDetail" component={GroupDetailScreen} /> */}

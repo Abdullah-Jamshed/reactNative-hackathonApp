@@ -33,11 +33,11 @@ const TabBar = ({state: {routes}, navigation}) => {
               {route.params.icon && (
                 <AntDesign
                   name={route.params.icon}
-                  color={route.name == selected ? 'red' : '#000'}
+                  color={route.name == selected ? '#5927ab' : '#b8b8b8'}
                   size={20}
                 />
               )}
-              <Text style={{color: route.name == selected ? 'red' : '#000'}}>
+              <Text style={{color: route.name == selected ? '#5927ab' : '#b8b8b8'}}>
                 {route.name}
               </Text>
             </TouchableOpacity>
