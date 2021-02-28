@@ -17,11 +17,7 @@ import {connect} from 'react-redux';
 import {setFormShow, setKeyboard} from '../store/actions/homeActions';
 
 // firebase
-import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-
-// icons
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // components
 import FormFields from '../components/FormFields';
@@ -29,13 +25,7 @@ import List from '../components/List';
 
 const {width, height} = Dimensions.get('window');
 
-const HomeScreen = ({
-  navigation,
-  userAuth,
-  formShow,
-  setFormShow,
-  setKeyboard,
-}) => {
+const HomeScreen = ({navigation, formShow, setFormShow, setKeyboard}) => {
   const [data, setData] = useState([]);
   const [loader, setLoader] = useState(true);
   const [loader2, setLoader2] = useState(true);
@@ -55,7 +45,6 @@ const HomeScreen = ({
   };
 
   const fetchData = async () => {
-    // setLoader2(true);
     console.log(accountType);
     if (accountType) {
       const fetchCollectionOf =
@@ -72,13 +61,10 @@ const HomeScreen = ({
           .collection(`${fetchCollectionOf}`)
           .get()
           .then((dataArr) => {
-            // console.log(dataArr.docs)
             setData(dataArr.docs);
             setLoader2(false);
           })
-          .catch(() => {
-            // setLoader2(false);
-          });
+          .catch(() => {});
       } else if (fetchCollectionOf == 'both') {
         firestore()
           .collection(`${active}`)
@@ -115,18 +101,6 @@ const HomeScreen = ({
     };
   }, []);
 
-  // useEffect(() => {
-  //   formShowSet();
-  // }, []);
-
-  // useEffect(() => {
-  //   const getType = async () => {
-  //     const value = await AsyncStorage.getItem('@account_type');
-  //     setAccountType(value);
-  //   };
-  //   getType();
-  // }, []);
-
   useEffect(() => {
     const getType = async () => {
       const value = await AsyncStorage.getItem('@account_type');
@@ -141,14 +115,12 @@ const HomeScreen = ({
   }, []);
 
   useEffect(() => {
-    // AsyncStorage.removeItem('@account_type');
     if (accountType !== 'admin') {
       fetchData();
     }
   }, [accountType]);
 
   useEffect(() => {
-    // console.log('before fetch =>> ', accountType);
     if (accountType == 'admin') {
       fetchData();
     }

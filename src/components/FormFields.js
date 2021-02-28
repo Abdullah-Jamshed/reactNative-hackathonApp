@@ -30,8 +30,6 @@ const FormFields = ({userAuth, formShow, setFormShow}) => {
   const [noOfOpening, setNoOfOpening] = useState('');
   const [reqMarks, setReqMarks] = useState('');
 
-  //   const [updateObject, setUpdateObject] = useState(null);
-
   const submit = async () => {
     var updateObject;
     if (accountType == 'student') {
@@ -40,7 +38,6 @@ const FormFields = ({userAuth, formShow, setFormShow}) => {
         numbers,
         courses,
       };
-      //   setUpdateObject(obj);
     } else if (accountType == 'company') {
       updateObject = {
         grade,
@@ -48,7 +45,6 @@ const FormFields = ({userAuth, formShow, setFormShow}) => {
         noOfOpening,
         reqMarks,
       };
-      //   setUpdateObject(obj);
     }
 
     if (updateObject) {
@@ -65,7 +61,6 @@ const FormFields = ({userAuth, formShow, setFormShow}) => {
           console.log('err ==>>> ', err);
         });
     }
-    // console.log('working ...',updateObject);
   };
 
   useEffect(() => {
@@ -75,10 +70,6 @@ const FormFields = ({userAuth, formShow, setFormShow}) => {
     };
     getType();
   }, []);
-
-  useEffect(() => {
-    console.log(formShow);
-  }, [formShow]);
 
   return (
     <View style={styles.container}>
@@ -185,7 +176,6 @@ const FormFields = ({userAuth, formShow, setFormShow}) => {
           </TouchableOpacity>
         </View>
       )}
-      {/* <View style={styles.buttonContainer}></View> */}
     </View>
   );
 };
@@ -210,12 +200,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 20,
   },
-  //   button: {
-  //     backgroundColor: '#a171ef',
-  //     paddingVertical: 10,
-  //     paddingHorizontal: 15,
-  //     borderRadius: 10,
-  //   },
   buttonText: {
     fontSize: 15,
     color: '#ffffff',
@@ -250,7 +234,7 @@ const styles = StyleSheet.create({
   },
   helperText: {
     fontSize: 12,
-    color:"#a171ef"
+    color: '#a171ef',
   },
 });
 

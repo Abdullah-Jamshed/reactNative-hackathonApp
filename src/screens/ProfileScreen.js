@@ -265,11 +265,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: 110,
-    // alignItems: 'center',
     position: 'absolute',
     top: 10,
     right: 10,
-    // padding:
   },
   button: {
     backgroundColor: '#fff',

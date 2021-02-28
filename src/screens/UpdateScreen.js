@@ -22,7 +22,6 @@ import auth from '@react-native-firebase/auth';
 
 //icons
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const {width, height} = Dimensions.get('window');
 
@@ -66,7 +65,6 @@ const UpdateScreen = ({navigation, userAuth, userAuthAction}) => {
     if (image) {
       setLoader(true);
       const {uri} = image;
-      // const filename = uri.substring(uri.lastIndexOf('/') + 1); // file name from uri storage().ref(`${userAuth.uid}/images/${filename}`)
       const uploadUri =
         Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
       const task = storage()
@@ -178,8 +176,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
   heading: {
     fontSize: 18,
@@ -196,8 +192,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 10,
     alignItems: 'center',
-    // flexDirection: 'row',
-    // justifyContent: 'center',
   },
   button: {
     backgroundColor: '#a171ef',
@@ -225,8 +219,6 @@ const styles = StyleSheet.create({
   },
   photoContainer: {
     width,
-    // backgroundColor: '#a171ef',
-    // height: 100,
     alignItems: 'center',
     paddingVertical: 20,
     marginBottom: 50,

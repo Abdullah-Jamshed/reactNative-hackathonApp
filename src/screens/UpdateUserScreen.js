@@ -17,7 +17,6 @@ import {connect} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 
 // icons
-// import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const {width, height} = Dimensions.get('window');
@@ -379,7 +378,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
-    // justifyContent: 'center',
     alignItems: 'center',
   },
   header: {
@@ -396,11 +394,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#a171ef',
   },
-  backButton: {
-    // position: 'absolute',
-    // top: 40,
-    // left: 20,
-  },
+  backButton: {},
   backButtonIcons: {
     color: '#a171ef',
   },
@@ -413,7 +407,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   lowerCont: {
-    // backgroundColor: 'red',
     flex: 1,
   },
 
@@ -482,9 +475,7 @@ const mapStatetoProps = (state) => {
   };
 };
 const mapDispatchtoProps = (dispatch) => {
-  return {
-    //   setDetail: (detail) => dispatch(setDetail(detail)),
-  };
+  return {};
 };
 
 export default connect(mapStatetoProps, mapDispatchtoProps)(UpdateUserScreen);

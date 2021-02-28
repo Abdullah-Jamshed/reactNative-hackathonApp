@@ -23,7 +23,6 @@ import firestore from '@react-native-firebase/firestore';
 // icons
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-// Screen
 // Component
 import DropDown from '../components/DropDown';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -138,7 +137,7 @@ const SignUpScreen = ({
           </View>
         </View>
         <ScrollView contentContainerStyle={{}}>
-          <View style={{width,alignItems:"center"}}>
+          <View style={{width, alignItems: 'center'}}>
             <DropDown />
             {accountType == 'student' && (
               <>
@@ -389,11 +388,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginRight: 10,
   },
-  backButton: {
-    // position: 'absolute',
-    // top: 40,
-    // left: 20,
-  },
+  backButton: {},
   backButtonIcons: {
     color: '#a171ef',
   },
@@ -417,9 +412,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#fe6666',
   },
-  fields: {
-    // marginTop: 20,
-  },
+  fields: {},
   fillCircle: {
     width: 10,
     height: 10,

@@ -18,7 +18,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 const {width, height} = Dimensions.get('window');
 
 const List = ({navigation, data, loader, setDetail, active}) => {
-  //   console.log(data);
   const [accountType, setAccountType] = useState(null);
   useEffect(() => {
     const getType = async () => {
@@ -26,7 +25,6 @@ const List = ({navigation, data, loader, setDetail, active}) => {
       setAccountType(value);
     };
     getType();
-    // console.log('sdad', data);
   }, []);
 
   return (
@@ -100,7 +98,6 @@ const List = ({navigation, data, loader, setDetail, active}) => {
             <View
               style={{
                 marginTop: 50,
-                // backgroundColor: 'red',
                 alignItems: 'center',
               }}>
               <Text
@@ -123,8 +120,6 @@ const styles = StyleSheet.create({
   heading: {
     paddingHorizontal: 15,
     marginTop: 15,
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
   headingText: {
     fontSize: 18,

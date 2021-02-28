@@ -20,7 +20,6 @@ import {connect} from 'react-redux';
 // firebase
 import auth from '@react-native-firebase/auth';
 
-// Screen
 //Component
 import DropDown from '../components/DropDown';
 
@@ -126,7 +125,6 @@ const LoginScreen = ({navigation, accountType}) => {
               width,
               alignItems: 'center',
               height: '100%',
-              // backgroundColor: 'red',
             }}>
             <View style={styles.heading}>
               <Text style={styles.headingText}>Recruitment App</Text>
@@ -230,14 +228,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
-    // justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 20,
   },
-  heading: {
-    // position: 'absolute',
-    // top: 25,
-  },
+  heading: {},
   headingText: {
     fontSize: 20,
     fontWeight: 'bold',

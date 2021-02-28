@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Text,
-  ScrollView,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {setAccountType} from '../store/actions/homeActions';
@@ -149,7 +148,6 @@ const styles = StyleSheet.create({
   dropDownGroupCont: {
     alignItems: 'center',
     justifyContent: 'center',
-    // height: '100%',
   },
 });
 

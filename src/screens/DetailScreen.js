@@ -24,9 +24,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const {width, height} = Dimensions.get('window');
 
-const DetailScreen = ({navigation, userAuth, detail, setDetail}) => {
-  const [userDetail, setUserDetail] = useState(null);
-
+const DetailScreen = ({navigation, detail, setDetail}) => {
   const userDetailFetch = async () => {
     if (detail) {
       firestore()
@@ -282,7 +280,6 @@ const styles = StyleSheet.create({
   },
   editButton: {
     padding: 5,
-    // backgroundColor: '#586069',
     borderRadius: 100,
   },
   loaderContainer: {
@@ -299,7 +296,6 @@ const styles = StyleSheet.create({
 
 const mapStatetoProps = (state) => {
   return {
-    userAuth: state.homeReducer.userAuth,
     accountType: state.homeReducer.accountType,
     detail: state.homeReducer.detail,
   };
