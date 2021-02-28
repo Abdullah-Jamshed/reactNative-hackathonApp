@@ -17,7 +17,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const {width, height} = Dimensions.get('window');
 
-const List = ({navigation, data, loader, setDetail,active}) => {
+const List = ({navigation, data, loader, setDetail, active}) => {
   //   console.log(data);
   const [accountType, setAccountType] = useState(null);
   useEffect(() => {
@@ -49,13 +49,23 @@ const List = ({navigation, data, loader, setDetail,active}) => {
         </View>
       )} */}
 
-          {accountType === 'admin' ? (
-            <></>
-          ) : (
-            data.map((data) => {
-              // const dataObj = data.data();
-              // console.log('data ==>> ', dataObj);
-            })
+          {accountType === 'admin' && (
+            <>
+              <>
+                {active == 'student' && (
+                  <View style={styles.heading}>
+                    <Text style={styles.headingText}>Students List</Text>
+                  </View>
+                )}
+              </>
+              <>
+                {active == 'company' && (
+                  <View style={styles.heading}>
+                    <Text style={styles.headingText}>Company List</Text>
+                  </View>
+                )}
+              </>
+            </>
           )}
 
           {data.length !== 0 ? (
