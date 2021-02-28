@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const {width, height} = Dimensions.get('window');
 
 const List = ({data}) => {
-//   console.log(data);
+  //   console.log(data);
   const [accountType, setAccountType] = useState(null);
   useEffect(() => {
     const getType = async () => {
@@ -35,7 +35,8 @@ const List = ({data}) => {
         <></>
       ) : (
         data.map((data) => {
-          console.log(data);
+          const dataObj = data.data();
+          console.log('data ==>> ', dataObj);
         })
       )}
     </View>

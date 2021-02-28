@@ -74,7 +74,6 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
   useEffect(() => {
     const getType = async () => {
       const value = await AsyncStorage.getItem('@account_type');
-      console.log('account type ==>> 2', value);
       setAccountType(value);
     };
     getType();
