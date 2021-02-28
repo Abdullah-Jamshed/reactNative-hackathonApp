@@ -185,7 +185,7 @@ const FormFields = ({userAuth, formShow, setFormShow}) => {
           </TouchableOpacity>
         </View>
       )}
-      <View style={styles.buttonContainer}></View>
+      {/* <View style={styles.buttonContainer}></View> */}
     </View>
   );
 };

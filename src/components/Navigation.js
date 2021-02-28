@@ -11,6 +11,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import UpdateScreen from '../screens/UpdateScreen';
 import DetailScreen from '../screens/DetailScreen';
+import UpdateUserScreen from '../screens/UpdateUserScreen';
 
 // redux
 import {connect} from 'react-redux';
@@ -86,6 +87,7 @@ const Navigation = ({userAuth, userAuthAction}) => {
             <Stack.Screen name="Home" component={TabBarNav} />
             <Stack.Screen name="Update" component={UpdateScreen} />
             <Stack.Screen name="Detail" component={DetailScreen} />
+            <Stack.Screen name="UpdateUser" component={UpdateUserScreen} />
           </>
         )}
       </Stack.Navigator>

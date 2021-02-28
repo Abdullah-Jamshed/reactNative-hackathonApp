@@ -18,12 +18,12 @@ import {connect} from 'react-redux';
 import {setDetail} from '../store/actions/homeActions';
 
 // firebasee
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
+// import auth from '@react-native-firebase/auth';
+// import firestore from '@react-native-firebase/firestore';
 
 // icons
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const {width, height} = Dimensions.get('window');
 
@@ -40,6 +40,16 @@ const DetailScreen = ({navigation, userAuth, detail, setDetail}) => {
   //   userDetailFetch();
   // }, []);
 
+  const [accountType, setAccountType] = useState(null);
+  useEffect(() => {
+    const getType = async () => {
+      const value = await AsyncStorage.getItem('@account_type');
+      console.log(value);
+      setAccountType(value);
+    };
+    getType();
+  }, []);
+
   return (
     <SafeAreaView style={{flex: 1}}>
       {detail && (
@@ -53,9 +63,18 @@ const DetailScreen = ({navigation, userAuth, detail, setDetail}) => {
                 }}
                 style={styles.button}>
                 <AntDesign name="left" size={22} color={'#fff'} />
-
-                {/* <Text style={styles.buttonText}>Back</Text> */}
               </TouchableOpacity>
+            </View>
+            <View style={styles.editButtonContainer}>
+              {accountType == 'admin' && (
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('UpdateUser');
+                  }}
+                  style={styles.editButton}>
+                  <AntDesign name="edit" size={22} color={'#fff'} />
+                </TouchableOpacity>
+              )}
             </View>
             <View style={styles.photoCircle}>
               {detail.photoURL ? (
@@ -256,12 +275,12 @@ const styles = StyleSheet.create({
   editButtonContainer: {
     zIndex: 10,
     position: 'absolute',
-    right: 0,
-    bottom: 0,
+    right: 10,
+    top: 10,
   },
   editButton: {
     padding: 5,
-    backgroundColor: '#586069',
+    // backgroundColor: '#586069',
     borderRadius: 100,
   },
   loaderContainer: {
