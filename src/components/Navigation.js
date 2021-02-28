@@ -50,7 +50,6 @@ const TabBarNav = () => {
 const Navigation = ({userAuth, userAuthAction}) => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
-  // const [user, setUser] = useState();
 
   // Handle user state changes
   function onAuthStateChanged(user) {

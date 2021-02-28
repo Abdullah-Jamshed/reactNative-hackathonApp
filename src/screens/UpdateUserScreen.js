@@ -278,26 +278,6 @@ const UpdateUserScreen = ({navigation, detail}) => {
                     textContentType="emailAddress"
                     editable={false}
                   />
-                  {/* <View style={styles.helperTextContainer}>
-                    {helperTextEmail !== '' && (
-                      <Text style={styles.helperText}>{helperTextEmail}</Text>
-                    )}
-                  </View> */}
-                  {/* <TextInput
-                    value={password}
-                    onChangeText={(text) => setPassword(text.trim())}
-                    style={styles.textInput}
-                    placeholder="Password"
-                    textContentType="password"
-                    secureTextEntry={true}
-                  /> */}
-                  {/* <View style={styles.helperTextContainer}>
-                    {helperTextPassword !== '' && (
-                      <Text style={styles.helperText}>
-                        {helperTextPassword}
-                      </Text>
-                    )} 
-                  </View>*/}
                   <TextInput
                     value={phoneNumber}
                     onChangeText={(text) => setPhoneNumber(text.trim())}

@@ -7,7 +7,6 @@ import {
   Text,
   Dimensions,
   Image,
-  ActivityIndicator,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
@@ -18,27 +17,30 @@ import {connect} from 'react-redux';
 import {setDetail} from '../store/actions/homeActions';
 
 // firebasee
-// import auth from '@react-native-firebase/auth';
-// import firestore from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 
 // icons
 import AntDesign from 'react-native-vector-icons/AntDesign';
-// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const {width, height} = Dimensions.get('window');
 
 const DetailScreen = ({navigation, userAuth, detail, setDetail}) => {
-  // const [userDetail, setUserDetail] = useState(null);
+  const [userDetail, setUserDetail] = useState(null);
 
-  // const userDetailFetch = async () => {
-  //   const type = await AsyncStorage.getItem('@account_type');
-  //   const data = await firestore().collection(type).doc(userAuth.uid).get();
-  //   setUserDetail(data.data());
-  // };
+  const userDetailFetch = async () => {
+    if (detail) {
+      firestore()
+        .collection(`${detail.accountType}`)
+        .doc(`${detail.userUID}`)
+        .onSnapshot((data) => {
+          setDetail(data.data());
+        });
+    }
+  };
 
-  // useEffect(() => {
-  //   userDetailFetch();
-  // }, []);
+  useEffect(() => {
+    userDetailFetch();
+  }, []);
 
   const [accountType, setAccountType] = useState(null);
   useEffect(() => {
