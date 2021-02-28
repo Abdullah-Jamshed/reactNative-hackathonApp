@@ -70,21 +70,36 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
     }
   };
 
-  useEffect(() => {
-    formShowSet();
-  }, []);
+  // useEffect(() => {
+  //   formShowSet();
+  // }, []);
+
+  // useEffect(() => {
+  //   const getType = async () => {
+  //     const value = await AsyncStorage.getItem('@account_type');
+  //     setAccountType(value);
+  //   };
+  //   getType();
+  // }, []);
 
   useEffect(() => {
     const getType = async () => {
       const value = await AsyncStorage.getItem('@account_type');
+      console.log(value);
       setAccountType(value);
+      if (value !== 'admin') {
+        formShowSet();
+        setLoader(false);
+      }
     };
     getType();
   }, []);
 
   useEffect(() => {
-    // AsyncStorage.removeItem('@show_form');
-    fetchData();
+    // AsyncStorage.removeItem('@account_type');
+    if (accountType !== 'admin') {
+      fetchData();
+    }
   }, [accountType]);
 
   return (
@@ -92,16 +107,24 @@ const HomeScreen = ({navigation, userAuth, formShow, setFormShow}) => {
       <View style={styles.container}>
         <View style={{flex: 1, alignItems: 'center', paddingTop: 20}}>
           <Text style={styles.heading}>Recruitment App</Text>
-          {loader || loader2 ? (
-            <ActivityIndicator
-              style={{height: '100%'}}
-              color={'#a171ef'}
-              size={'large'}
-            />
-          ) : formShow ? (
-            <FormFields />
+          {accountType == 'admin' ? (
+            <>
+              <Text>Admin</Text>
+            </>
           ) : (
-            <List data={data} loader={loader2} navigation={navigation} />
+            <>
+              {loader || loader2 ? (
+                <ActivityIndicator
+                  style={{height: '100%'}}
+                  color={'#a171ef'}
+                  size={'large'}
+                />
+              ) : formShow ? (
+                <FormFields />
+              ) : (
+                <List data={data} loader={loader2} navigation={navigation} />
+              )}
+            </>
           )}
         </View>
       </View>

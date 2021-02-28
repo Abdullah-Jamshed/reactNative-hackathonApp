@@ -26,7 +26,7 @@ const List = ({navigation, data, loader, setDetail}) => {
       setAccountType(value);
     };
     getType();
-    console.log('sdad', data);
+    // console.log('sdad', data);
   }, []);
 
   return (
@@ -80,7 +80,7 @@ const List = ({navigation, data, loader, setDetail}) => {
                       style={styles.groupContainer}>
                       <View style={{flexDirection: 'row'}}>
                         <View style={styles.groupImage}>
-                          <AntDesign name="user" size={40} color={'#e6e6e6'} />
+                          <AntDesign name="user" size={40} color={'#c4c4c4'} />
                         </View>
                         <View style={styles.groupDetail}>
                           <Text>{data.userName}</Text>
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   groupImage: {
     width: 50,
     height: 50,
-    backgroundColor: '#f6f6f6',
+    backgroundColor: '#e4e4e4',
     justifyContent: 'center',
     alignItems: 'center',
     borderTopLeftRadius: 10,

@@ -34,8 +34,17 @@ const ProfileScreen = ({navigation, userAuth}) => {
   };
   const userDetailFetch = async () => {
     const type = await AsyncStorage.getItem('@account_type');
-    const data = await firestore().collection(type).doc(userAuth.uid).get();
-    setUserDetail(data.data());
+    if (type == 'admin') {
+      const data = await firestore()
+        .collection('admin')
+        .doc('9C8nVNVKnyLtbl4YcOM0vJGRwMJ2')
+        .get();
+      setUserDetail(data.data());
+      console.log(data.data());
+    } else {
+      const data = await firestore().collection(type).doc(userAuth.uid).get();
+      setUserDetail(data.data());
+    }
   };
 
   useEffect(() => {
@@ -86,6 +95,28 @@ const ProfileScreen = ({navigation, userAuth}) => {
           {userDetail ? (
             <>
               <View style={styles.userDetailWrapper}>
+                {userDetail.accountType == 'admin' && (
+                  <>
+                    <View style={styles.userDetailContainer}>
+                      <View>
+                        <Text style={styles.headingText}>Admin Detail</Text>
+                      </View>
+
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>Name :</Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.userName}
+                        </Text>
+                      </View>
+                      <View style={styles.userDetail}>
+                        <Text style={styles.userDetailLabel}>Email :</Text>
+                        <Text style={styles.userDetailValue}>
+                          {userDetail.email}
+                        </Text>
+                      </View>
+                    </View>
+                  </>
+                )}
                 {userDetail.accountType == 'student' && (
                   <>
                     <View style={styles.userDetailContainer}>
