@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  user: null,
+  userAuth: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -7,9 +7,9 @@ export default (state = INITIAL_STATE, action) => {
     case 'USER':
       return {
         ...state,
-        user: action.payload.user,
+        userAuth: action.payload.user,
       };
- 
+
     default:
       return state;
   }
