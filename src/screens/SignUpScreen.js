@@ -12,7 +12,7 @@ import {
 // Redux
 import {connect} from 'react-redux';
 // redux store actions
-import {userAuthAction, setExists} from '../store/actions/homeActions';
+import {userAuthAction, setAccountType} from '../store/actions/homeActions';
 
 // firebase
 import auth from '@react-native-firebase/auth';
@@ -23,13 +23,22 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Screen
 // Component
+import DropDown from '../components/DropDown';
 
 const {width, height} = Dimensions.get('window');
 
-const SignUpScreen = ({navigation, userAuthAction, setExists}) => {
+const SignUpScreen = ({
+  navigation,
+  userAuthAction,
+  accountType,
+  setAccountType,
+}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [gender, setGender] = useState('');
+  // const [collegeYear, setCollegeYear] = useState('');
   const [helperTextEmail, setHelperTextEmail] = useState('');
   const [helperTextPassword, setHelperTextPassword] = useState('');
 
@@ -54,11 +63,9 @@ const SignUpScreen = ({navigation, userAuthAction, setExists}) => {
               .set({
                 userUID: currentUser.uid,
                 userName: currentUser.displayName,
-                groupsJoined: [],
-                location: null,
               })
               .then(() => {
-                setExists(true);
+                setAccountType(true);
                 userAuthAction(currentUser);
               });
           })
@@ -84,61 +91,107 @@ const SignUpScreen = ({navigation, userAuthAction, setExists}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}>
-          <Ionicons
-            name="chevron-back"
-            size={30}
-            style={styles.backButtonIcons}
+        <View style={styles.header}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.backButton}
+            onPress={() => {
+              setAccountType(null);
+              navigation.goBack();
+            }}>
+            <Ionicons
+              name="chevron-back"
+              size={30}
+              style={styles.backButtonIcons}
+            />
+          </TouchableOpacity>
+          <View style={styles.heading}>
+            <Text style={styles.headingText}>Sign Up</Text>
+          </View>
+        </View>
+        <DropDown />
+        <View style={styles.fields}>
+          <TextInput
+            value={name}
+            onChangeText={(text) => setName(text)}
+            style={styles.textInput}
+            placeholder="Full Name"
+            textContentType="name"
           />
-        </TouchableOpacity>
-        <View style={styles.heading}>
-          <Text style={styles.headingText}>Family Tracker</Text>
-        </View>
-        <TextInput
-          value={name}
-          onChangeText={(text) => setName(text)}
-          style={styles.textInput}
-          placeholder="Name"
-          textContentType="name"
-        />
-        <TextInput
-          value={email}
-          onChangeText={(text) => setEmail(text.trim())}
-          style={styles.textInput}
-          placeholder="Email"
-          textContentType="emailAddress"
-        />
-        <View style={styles.helperTextContainer}>
-          {helperTextEmail !== '' && (
-            <Text style={styles.helperText}>{helperTextEmail}</Text>
-          )}
-        </View>
-        <TextInput
-          value={password}
-          onChangeText={(text) => setPassword(text.trim())}
-          style={styles.textInput}
-          placeholder="Password"
-          textContentType="password"
-          secureTextEntry={true}
-        />
-        <View style={styles.helperTextContainer}>
-          {helperTextPassword !== '' && (
-            <Text style={styles.helperText}>{helperTextPassword}</Text>
-          )}
+          <TextInput
+            value={email}
+            onChangeText={(text) => setEmail(text.trim())}
+            style={styles.textInput}
+            placeholder="Email"
+            textContentType="emailAddress"
+          />
+          <View style={styles.helperTextContainer}>
+            {helperTextEmail !== '' && (
+              <Text style={styles.helperText}>{helperTextEmail}</Text>
+            )}
+          </View>
+          <TextInput
+            value={password}
+            onChangeText={(text) => setPassword(text.trim())}
+            style={styles.textInput}
+            placeholder="Password"
+            textContentType="password"
+            secureTextEntry={true}
+          />
+          <View style={styles.helperTextContainer}>
+            {helperTextPassword !== '' && (
+              <Text style={styles.helperText}>{helperTextPassword}</Text>
+            )}
+          </View>
+          <TextInput
+            value={phoneNumber}
+            onChangeText={(text) => setPhoneNumber(text.trim())}
+            style={styles.textInput}
+            placeholder="Phone Number"
+            keyboardType="number-pad"
+            secureTextEntry={true}
+          />
+          <View style={styles.genderButtonCont}>
+            <TouchableOpacity
+              activeOpacity={1}
+              style={styles.genderButton}
+              onPress={() => {
+                setGender('male');
+              }}>
+              <View
+                style={
+                  gender == 'male' ? styles.fillCircle : styles.emptyCircle
+                }
+              />
+              <Text style={styles.genderButtonText}>Male</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={1}
+              style={styles.genderButton}
+              onPress={() => {
+                setGender('female');
+              }}>
+              <View
+                style={
+                  gender == 'female' ? styles.fillCircle : styles.emptyCircle
+                }
+              />
+              <Text style={styles.genderButtonText}>Female</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <TouchableOpacity
           onPress={SignUp}
           activeOpacity={0.8}
           style={
-            name && email && password ? styles.button : styles.disabledButton
+            name && email && password && phoneNumber && gender && accountType
+              ? styles.button
+              : styles.disabledButton
           }
           disabled={!(name && email && password)}>
           <Text
             style={
-              name && email && password
+              name && email && password && phoneNumber && gender && accountType
                 ? styles.buttonText
                 : styles.disabledButtonText
             }>
@@ -154,15 +207,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
-    justifyContent: 'center',
     alignItems: 'center',
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width,
+    padding: 10,
+  },
   heading: {
-    position: 'absolute',
-    top: 42,
+    marginLeft: 10,
   },
   headingText: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#a171ef',
   },
@@ -188,9 +245,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   backButton: {
-    position: 'absolute',
-    top: 40,
-    left: 20,
+    // position: 'absolute',
+    // top: 40,
+    // left: 20,
   },
   backButtonIcons: {
     color: '#a171ef',
@@ -215,15 +272,48 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#fe6666',
   },
+  fields: {
+    // marginTop: 20,
+  },
+  fillCircle: {
+    width: 10,
+    height: 10,
+    backgroundColor: '#a171ef',
+    borderRadius: 10,
+  },
+  emptyCircle: {
+    width: 10,
+    height: 10,
+    backgroundColor: '#fff',
+    borderWidth: 0.5,
+    borderColor: '#a171ef',
+    borderRadius: 10,
+  },
+  genderButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  genderButtonText: {
+    marginLeft: 5,
+    marginRight: 15,
+    fontSize: 15,
+  },
+  genderButtonCont: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
 });
 
 const mapStatetoProps = (state) => {
-  return {};
+  return {
+    accountType: state.homeReducer.accountType,
+  };
 };
 const mapDispatchtoProps = (dispatch) => {
   return {
     userAuthAction: (userAuth) => dispatch(userAuthAction(userAuth)),
-    setExists: (exists) => dispatch(setExists(exists)),
+    setAccountType: (type) => dispatch(setAccountType(type)),
   };
 };
 

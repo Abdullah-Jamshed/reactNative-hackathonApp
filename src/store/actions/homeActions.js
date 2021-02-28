@@ -4,5 +4,11 @@ const userAuthAction = (user) => {
   };
 };
 
+const setAccountType = (type) => {
+  return (dispatch) => {
+    dispatch({type: 'ACCOUNTTYPE', payload: {type}});
+  };
+};
 
-export {userAuthAction,};
+
+export {userAuthAction,setAccountType};
