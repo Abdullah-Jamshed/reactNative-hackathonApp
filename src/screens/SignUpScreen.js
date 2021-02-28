@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Dimensions,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 
 // Redux
@@ -42,7 +43,10 @@ const SignUpScreen = ({
   const [helperTextEmail, setHelperTextEmail] = useState('');
   const [helperTextPassword, setHelperTextPassword] = useState('');
 
+  const [loader, setLoader] = useState(false);
+
   const SignUp = () => {
+    setLoader(true);
     helperTextEmail && setHelperTextEmail('');
     helperTextPassword && setHelperTextPassword('');
     auth()
@@ -63,18 +67,23 @@ const SignUpScreen = ({
               .set({
                 userUID: currentUser.uid,
                 userName: currentUser.displayName,
+                phoneNumber,
+                gender,
+                accountType,
               })
               .then(() => {
-                setAccountType(true);
                 userAuthAction(currentUser);
+                setLoader(false);
               });
           })
           .catch((error) => {
+            setLoader(false);
             // An error happened.
             console.log('Update Unsuccessful.', error);
           });
       })
       .catch((error) => {
+        setLoader(false);
         if (error.code === 'auth/email-already-in-use') {
           setHelperTextEmail('That email address is already in use!');
         }
@@ -197,6 +206,7 @@ const SignUpScreen = ({
             }>
             Sign Up
           </Text>
+          {loader && <ActivityIndicator color={'#fff'} size={'small'} />}
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -232,6 +242,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   button: {
+    flexDirection: 'row',
     backgroundColor: '#a171ef',
     width: width / 1.3,
     padding: 10,
@@ -243,6 +254,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffff',
     fontSize: 15,
+    marginRight: 10,
   },
   backButton: {
     // position: 'absolute',
