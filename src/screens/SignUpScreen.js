@@ -72,6 +72,7 @@ const SignUpScreen = ({
                 phoneNumber,
                 gender,
                 accountType,
+                completeForm:null
               };
             } else if (accountType == 'company') {
               dataObject = {
@@ -81,6 +82,7 @@ const SignUpScreen = ({
                 phoneNumber,
                 accountType,
                 city,
+                completeForm:null
               };
             }
             if (dataObject) {

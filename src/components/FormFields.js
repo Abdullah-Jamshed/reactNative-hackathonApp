@@ -18,7 +18,7 @@ import {setFormShow} from '../store/actions/homeActions';
 
 const {width, height} = Dimensions.get('window');
 
-const FormFields = ({userAuth, formShow, setFormShow}) => {
+const FormFields = ({userAuth}) => {
   const [accountType, setAccountType] = useState(null);
   const [loader, setLoader] = useState(false);
 
@@ -53,9 +53,9 @@ const FormFields = ({userAuth, formShow, setFormShow}) => {
         .doc(userAuth.uid)
         .update(updateObject)
         .then(() => {
-          AsyncStorage.setItem(`@show_form_${userAuth.userUID}`, 'falseFlag');
-          setFormShow(false);
-          // console.log('Form Update Successfully');
+          firestore().collection(`${accountType}`).doc(userAuth.uid).update({
+            completeFrom: 'true',
+          });
         })
         .catch((err) => {
           // console.log('err ==>>> ', err);
@@ -241,13 +241,10 @@ const styles = StyleSheet.create({
 const mapStatetoProps = (state) => {
   return {
     userAuth: state.homeReducer.userAuth,
-    formShow: state.homeReducer.formShow,
   };
 };
 const mapDispatchtoProps = (dispatch) => {
-  return {
-    setFormShow: (show) => dispatch(setFormShow(show)),
-  };
+  return {};
 };
 
 export default connect(mapStatetoProps, mapDispatchtoProps)(FormFields);

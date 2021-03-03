@@ -61,8 +61,9 @@ const List = ({navigation, data, loader, setDetail, active}) => {
             </>
           )}
 
-          {data.length !== 0 ? (
-            <View style={{marginTop: 20, marginBottom: 120}}>
+          {data.length !== 0 && (
+            <View
+              style={{marginTop: 20, height: height / 1.6, paddingBottom: 10}}>
               <ScrollView
                 contentContainerStyle={{
                   flexGrow: 1,
@@ -93,17 +94,6 @@ const List = ({navigation, data, loader, setDetail, active}) => {
                   );
                 })}
               </ScrollView>
-            </View>
-          ) : (
-            <View
-              style={{
-                marginTop: 50,
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{fontSize: 15, fontWeight: 'bold', color: '#a171ef'}}>
-                No Data
-              </Text>
             </View>
           )}
         </View>

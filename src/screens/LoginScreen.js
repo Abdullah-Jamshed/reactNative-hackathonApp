@@ -19,6 +19,7 @@ import {connect} from 'react-redux';
 
 // firebase
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 //Component
 import DropDown from '../components/DropDown';
@@ -55,11 +56,18 @@ const LoginScreen = ({navigation, accountType}) => {
     };
   }, []);
 
-  const signIn = () => {
+
+  const signIn = async () => {
     setLoader(true);
     helperTextEmail && setHelperTextEmail('');
     helperTextPassword && setHelperTextPassword('');
-    if (email !== 'admin@admin.com' && accountType !== 'admin') {
+
+    const data = await firestore()
+      .collection(`${accountType}`)
+      .where('email', '==', email)
+      .get();
+
+    if (data.docs.length !== 0) {
       auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
@@ -80,33 +88,9 @@ const LoginScreen = ({navigation, accountType}) => {
             setHelperText('Some thing went Wrong !');
           }
         });
-    } else if (email == 'admin@admin.com' && accountType == 'admin') {
-      auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(() => {
-          AsyncStorage.setItem('@account_type', accountType);
-        })
-        .catch((error) => {
-          setLoader(false);
-          if (error.code === 'auth/invalid-email') {
-            setHelperTextEmail('Invalid Email address !');
-          }
-          if (error.code === 'auth/user-not-found') {
-            setHelperTextEmail('User Not found !');
-          }
-          if (error.code === 'auth/wrong-password') {
-            setHelperTextPassword('Wrong Password !');
-          }
-          if (error.code === 'auth/too-many-requests') {
-            setHelperText('Some thing went Wrong !');
-          }
-        });
-    } else if (email == 'admin@admin.com' && accountType !== 'admin') {
-      setLoader(false);
+    } else {
       setHelperTextEmail('User Not found !');
-    } else if (email !== 'admin@admin.com' && accountType == 'admin') {
       setLoader(false);
-      setHelperTextEmail('User Not found !');
     }
   };
 
